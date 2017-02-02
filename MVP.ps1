@@ -94,7 +94,7 @@ function Get-MVPContributionArea
 
 }
 
-Get-MVPContributionArea 'My Awarded Category'
+Get-MVPContributionArea
 
 
 
