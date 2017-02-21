@@ -25,6 +25,7 @@ https://aka.ms/mvp-api-video
 - [ ] New-MVPOnlineIdentity (POST)
 - [x] Remove-MVPContribution (DELETE)
 - [ ] Remove-MVPOnlineIdentity (DELETE)
+- [x] Set-MVPConfiguration
 - [x] Set-MVPContribution (PUT) (to edit an existing one)
 - [ ] Set-MVPOnlineIdentity (PUT)
 
