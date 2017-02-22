@@ -5,7 +5,7 @@ Param(
     [String]$ClientID,
 
     [Parameter(Mandatory)]
-    $SubscriptionKey
+    [string]$SubscriptionKey
 )
 Begin {
 
@@ -41,7 +41,11 @@ Begin {
             $null = $form.ShowDialog()
             # set a the autorization code globally
             $global:AutorizationCode = ([regex]'^\?code=(?<code>.+)&lc=\d{1,10}$').Matches(([uri]$uri).query).Groups | Select -Last 1 -Expand value
-            Write-Verbose -Message "Successfully got authorization code $($AutorizationCode)"
+            if ($global:AutorizationCode) {
+                Write-Verbose -Message "Successfully got authorization code $($AutorizationCode)"
+            } else {
+                Throw 'Authorization code not catched'
+            }
         } catch {
             Throw $_
         }
@@ -76,3 +80,21 @@ Process {
 }
 End {}
 }
+<#
+    .SYNOPSIS
+        Get an Oauth 2.0 autorization code
+
+    .DESCRIPTION
+        Use the authorization code grant flow described on https://msdn.microsoft.com/en-us/library/hh243647.aspx
+        Pop-up a window that asks you to grant permissions to the mvpapi.portal.azure-api.net application and
+        parse the returned url to catch the authorization code
+
+    .PARAMETER SubscriptionKey
+        It's the primary key or secondary key you get in your profile on this page https://mvpapi.portal.azure-api.net/developer
+
+    .PARAMETER ClientID
+        It's the clientID you see in the url of the MVPAuth application on your https://account.live.com/consent/Manage page
+
+    .EXAMPLE
+        Set-MVPConfiguration -CliendID '0000000048193351' -SubscriptionKey $myKey 
+#>
