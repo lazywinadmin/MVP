@@ -84,7 +84,7 @@ Process {
             Uri = 'https://login.live.com/oauth20_token.srf'
             Method = 'Post'
             ContentType = 'application/x-www-form-urlencoded'
-            Body = 'client_id={0}&grant_type=refresh_token&redirect_uri={1}&refresh_token={2}' -f $ClientID,$RedirectUri,$Oauth2.refresh_token
+            Body = 'client_id={0}&grant_type=refresh_token&redirect_uri={1}&refresh_token={2}' -f $ClientID,$RedirectUri,$MVPOauth2.refresh_token
         }
         try {
             $r = Invoke-RestMethod @HashTable -ErrorAction Stop
