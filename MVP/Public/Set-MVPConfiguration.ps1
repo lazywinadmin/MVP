@@ -10,14 +10,14 @@ PARAM (
 Begin {}
 Process {
     try {
-        $output = Get-MVPOAuthAutorizationCode -ClientID $ClientID -SubscriptionKey $SubscriptionKey -ErrorAction Stop
+        Get-MVPOAuthAutorizationCode -ClientID $ClientID -SubscriptionKey $SubscriptionKey -ErrorAction Stop
         Write-Verbose -Message 'Successfully call the Get-MVPOAuthAutorizationCode function'
     } catch {
         Write-Warning -Message 'Something went wrong with the private function Get-MVPOAuthAutorizationCode'
     }
-    if ($output) {
+    if ($MVPOauth2) {
         $global:MVPPrimaryKey = $SubscriptionKey
-        $global:MVPAuthorizationCode = ('{0} {1}' -f $output.token_type,$output.access_token)
+        $global:MVPAuthorizationCode = ('{0} {1}' -f $MVPOauth2.token_type,$MVPOauth2.access_token)
         Write-Verbose -Message 'Successfully set the global variables MVPPrimaryKey and MVPAuthorizationCode'
     } else {
         Write-Warning -Message 'Failed to define an MVPAuthorizationCode variable'

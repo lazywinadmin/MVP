@@ -55,27 +55,50 @@ Begin {
 
 }
 Process {
-
-    Show-MVPOAuthWindow -url $u1
-    
-    if ($AutorizationCode) {
-    
+    if (-not($MVPOauth2)) {
+        Write-Verbose -Message 'No Ouath2 object detected, asking for permission'
+        Show-MVPOAuthWindow -url $u1
+        if ($AutorizationCode) {
+            $HashTable = @{
+                Uri = 'https://login.live.com/oauth20_token.srf'
+                Method = 'Post'
+                ContentType = 'application/x-www-form-urlencoded'
+                Body = 'client_id={0}&redirect_uri={1}&client_secret={2}&code={3}&grant_type=authorization_code' -f  $ClientID,$RedirectUri,$SubscriptionKey,$AutorizationCode
+            }
+            try {
+                $r = Invoke-RestMethod @HashTable -ErrorAction Stop
+                Write-Verbose -Message 'Successfully got oauth 2.0 access token'
+            } catch {
+                Throw $_
+            }
+            if ($r) {
+                $global:MVPOauth2 = $r | 
+                Add-Member -MemberType NoteProperty -Name ValidUntil -Value ((Get-Date).AddSeconds($r.expires_in-1)) -Force -PassThru
+            }
+        } else {
+            Write-Warning -Message 'No authorization code set'
+        }        
+    } elseif ((Get-Date) -ge ($MVPOauth2.ValidUntil)) {
+        Write-Verbose -Message 'Expired Ouath2 access token detected, refreshing it'
         $HashTable = @{
             Uri = 'https://login.live.com/oauth20_token.srf'
             Method = 'Post'
             ContentType = 'application/x-www-form-urlencoded'
-            Body = 'client_id={0}&redirect_uri={1}&client_secret={2}&code={3}&grant_type=authorization_code' -f  $ClientID,$RedirectUri,$SubscriptionKey,$AutorizationCode
+            Body = 'client_id={0}&grant_type=refresh_token&redirect_uri={1}&refresh_token={2}' -f $ClientID,$RedirectUri,$MVPOauth2.refresh_token
         }
-
         try {
-            #$Response = Invoke-RestMethod @HT -ErrorAction Stop
-            Invoke-RestMethod @HashTable -ErrorAction Stop
-            Write-Verbose -Message 'Successfully got access token'
+            $r = Invoke-RestMethod @HashTable -ErrorAction Stop
+            Write-Verbose -Message 'Successfully got oauth 2.0 refresh token'
         } catch {
             Throw $_
         }
+        if ($r) {
+            $global:MVPOauth2 = $r | 
+            Add-Member -MemberType NoteProperty -Name ValidUntil -Value ((Get-Date).AddSeconds($r.expires_in-1)) -Force -PassThru
+        }        
     } else {
-        Write-Warning -Message "No authorization code set"
+        Write-Verbose -Message 'The current Oauth2 access token is still valid'
+        
     }
 }
 End {}
