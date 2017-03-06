@@ -1,30 +1,43 @@
-﻿function Get-MVPContributionVisibility
-{
+﻿Function Get-MVPContributionVisibility {
 <#
-Missing one for the MVP Community
+    .SYNOPSIS
+        Invoke the GetSharingPreferences REST API to retrieve contribution visibility types
+
+    .DESCRIPTION
+        Gets a list of Sharing Preference / Visibility Types for Contributions
+
+    .EXAMPLE 
+        Get-MVPContributionVisibility
+
 #>
 [CmdletBinding()]
-PARAM(
-    [ValidateSet('EveryOne','Microsoft')]
-    $Visibility
-    )
+Param()
+Begin {}
+Process {
 
-    switch ($Visibility){
-        'EveryOne' {
-            $Props = @{
-                Id = '299600000'
-                Description = 'Everyone'
-                LocalizeKey = 'PublicVisibilityText'
+    if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
+	
+        Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
+    
+    } else {
+
+        Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
+
+        $Splat = @{
+            Uri = 'https://mvpapi.azure-api.net/mvp/api/contributions/sharingpreferences'
+            Headers = @{
+                'Ocp-Apim-Subscription-Key' = $global:MVPPrimaryKey
+                Authorization = $Global:MVPAuthorizationCode
             }
+            ErrorAction = 'Stop'
         }
-        'Microsoft' {
-            $Props = @{
-                Id = '100000000'
-                Description = 'Microsoft'
-                LocalizeKey = 'MicrosoftVisibilityText'
-            }
+
+        try {
+            (Invoke-RestMethod @Splat)
+        } catch {
+            Write-Warning -Message "Failed to invoke the GetSharingPreferences API because $($_.Exception.Message)"
         }
     }
-
-    [pscustomobject]$Props
+}
+End {}
 }

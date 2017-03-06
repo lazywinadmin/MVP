@@ -1,41 +1,44 @@
-﻿function Get-MVPContributionType
-{
-    [CmdletBinding(DefaultParameterSetName='All')]
-    PARAM(
-        [parameter(ParameterSetName='All')]
-        [int]$Offset=1,
+﻿Function Get-MVPContributionType {
+<#
+    .SYNOPSIS
+        Invoke the GetContributionTypes REST API to retrieve contribution types
 
-        [parameter(ParameterSetName='All')]
-        [int]$Limit=5,
-
-        [parameter(ParameterSetName='ID')]
-        [System.String]$ID
-    )
+    .DESCRIPTION
+        Gets a list of contribution types
 
 
-    if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode))
-    {
-	    Write-Warning -Message "You need to use Set-MVPConfiguration first to set the Primary Key"
-	    break
-    }
+    .EXAMPLE
+        Get-MVPContributionType
 
+        It gets the list of contribution types
+#>
+[CmdletBinding()]
+Param()
+Begin {}
+Process {
 
-    #Splat
-    $Splat = @{
-        Uri = "https://mvpapi.azure-api.net/mvp/api/contributions/contributiontypes"
-        Headers = @{
-            "Ocp-Apim-Subscription-Key" = $global:MVPPrimaryKey
-            Authorization = $Global:MVPAuthorizationCode}
-    }
-
+    if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
+	
+    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
     
-    if ($ID)
-    {
-        $Splat.Uri = "https://mvpapi.azure-api.net/mvp/api/contributions/$ID"
+    } else {
+
+        Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
+
+        $Splat = @{
+            Uri = 'https://mvpapi.azure-api.net/mvp/api/contributions/contributiontypes'
+            Headers = @{
+                'Ocp-Apim-Subscription-Key' = $global:MVPPrimaryKey
+                Authorization = $Global:MVPAuthorizationCode
+            }
+            ErrorAction = 'Stop'
+        }
+        try {
+             [PSCustomObject[]](Invoke-RestMethod @Splat)
+        } catch {
+            Write-Warning -Message "Failed to invoke the GetContributionTypes API because $($_.Exception.Message)"
+        }
     }
-
-
-   $out =invoke-RestMethod @Splat
-   [pscustomobject]$out
-    
+}
+End {}
 }
