@@ -131,7 +131,7 @@ Process {
     "AwardName": "$($Technology.awardname)",
     "AwardCategory": "$($Technology.awardcategory)"
   },
-  "StartDate": "$StardDate",
+  "StartDate": "$StartDate",
   "Title": "$Title",
   "ReferenceUrl": "$ReferenceUrl",
   "Visibility": {
