@@ -29,7 +29,7 @@
 [CmdletBinding(DefaultParameterSetName='All')]
 Param(
     [parameter(ParameterSetName='All')]
-    [int32]$Offset=1,
+    [int32]$Offset=0,
 
     [parameter(ParameterSetName='All')]
     [int32]$Limit=5,
