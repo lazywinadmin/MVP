@@ -22,11 +22,11 @@ https://aka.ms/mvp-api-video
 - [x] Get-MVPProfile (Current and by ID)
 - [x] Get-MVPProfileImage
 - [x] New-MVPContribution (POST)
-- [ ] New-MVPOnlineIdentity (POST)
+- [x] New-MVPOnlineIdentity (POST)
 - [x] Remove-MVPContribution (DELETE)
-- [ ] Remove-MVPOnlineIdentity (DELETE)
+- [x] Remove-MVPOnlineIdentity (DELETE)
 - [x] Set-MVPConfiguration
 - [x] Set-MVPContribution (PUT) (to edit an existing one)
-- [ ] Set-MVPOnlineIdentity (PUT)
+- [x] Set-MVPOnlineIdentity (PUT)
 - [x] Remove-MVPConfiguration
 
