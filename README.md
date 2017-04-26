@@ -18,11 +18,11 @@ Set-MVPConfiguration -SubscriptionKey $ApplicationID$Subkey
 ```
 A user interface will show to authenticate against the Microsoft API "mvpapi.portal.azure-api.net"
 
-![Alt text](media/Set-MVPConfiguration01.jpg?raw=true "Set-MVPConfiguration")
+![Alt text](Media/Set-MVPConfiguration01.jpg?raw=true "Set-MVPConfiguration")
 
-![Alt text](media/Set-MVPConfiguration02.jpg?raw=true "Set-MVPConfiguration")
+![Alt text](Media/Set-MVPConfiguration02.jpg?raw=true "Set-MVPConfiguration")
 
-![Alt text](media/Set-MVPConfiguration03.jpg?raw=true "Set-MVPConfiguration")
+![Alt text](Media/Set-MVPConfiguration03.jpg?raw=true "Set-MVPConfiguration")
 
 
 ### Check the command available
