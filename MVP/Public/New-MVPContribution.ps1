@@ -7,54 +7,98 @@
         Creates a new Contribution item
 
     .PARAMETER ContributionTechnology
+        Specifies the Contribution technology
+        This parameter is dynamic and is retrieving the information from Get-MVPContributionArea
+        
     .PARAMETER ContributionType
+        Specifies the Contribution Type
+        This parameter is dynamic and is retrieving the information from Get-MVPContributionType
+
     .PARAMETER StartDate
+        Specifies the Date of the activity
+
     .PARAMETER Title
+        Specifies the Title of the activity
+
     .PARAMETER Description
+        Specifies the Description of the activity
+
     .PARAMETER ReferenceUrl
+        Specifies the Url of the activity
+
     .PARAMETER AnnualQuantity
+        Specifies the Annual quantity.
+        Default is 1
+
     .PARAMETER SecondAnnualQuantity
+        Specifies the Second Annual quantity.
+        Default is 0
+
     .PARAMETER AnnualReach
+        Specifies the Annual Reach
+        Default is 0
+
     .PARAMETER Visibility
+        Specifies the audience that will be able to see your activity
+        Values: 'EveryOne','Microsoft','MVP Community','Microsoft Only'
+        Default = 'Microsoft'
 
     .EXAMPLE
-        New-MVPContribution -ContributionType Video -ContributionTechnology PowerShell 
+    $Splat = @{
+        startdate ='2017/04/25'
+        Title='Test from mvpapi.azure-api.net'
+        Description = 'Description sample'
+        ReferenceUrl='https://github.com/lazywinadmin/MVP'
+        AnnualQuantity='1'
+        SecondAnnualQuantity='0'
+        AnnualReach = '0'
+        Visibility = 'EveryOne' # Get-MVPContributionVisibility
+        ContributionType = 'Blog Site Posts' # Get-MVPContributionType
+        ContributionTechnology = 'PowerShell' # Get-MVPContributionArea
+    }
+    New-MVPContribution @splat
+
+    This will create a new MVP Contribution using the current session opened by Set-MVPConfiguration
+
+    .NOTES
+        https://github.com/lazywinadmin/MVP
 #>
 [CmdletBinding()]
 Param(
-    [Parameter()]
-    [String]$StartDate = '2017/02/01',
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
+    [String]$StartDate = (Get-Date -Format 'yyyy/MM/dd'),
     
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$Title='Test from mvpapi.azure-api.net',
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$Description='Description sample',
     
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$ReferenceUrl='https://github.com/lazywinadmin/MVP',
     
-    [Parameter()]
-    [String]$AnnualQuantity='0',
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
+    [String]$AnnualQuantity='1',
     
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$SecondAnnualQuantity='0',
 
-    [Parameter()]    
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$AnnualReach = '0',
     
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName=$true)]
     [ValidateSet('EveryOne','Microsoft','MVP Community','Microsoft Only')]
     [String]$Visibility = 'Microsoft'
 )
 DynamicParam {
 
-    $Dictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+    $Dictionary = New-Object -TypeName System.Management.Automation.RuntimeDefinedParameterDictionary
 
     $ParameterName = 'ContributionTechnology'
     $AttribColl1 = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
     $Param1Att = New-Object System.Management.Automation.ParameterAttribute
     $Param1Att.Mandatory = $true
+    $Param1Att.ValueFromPipelineByPropertyName = $true
     $Param1Att.ParameterSetName = '__AllParameterSets'
     $AttribColl1.Add($Param1Att)
     $AttribColl1.Add((New-Object System.Management.Automation.ValidateSetAttribute(Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
@@ -64,6 +108,7 @@ DynamicParam {
     $AttribColl2 = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
     $Param2Att = New-Object System.Management.Automation.ParameterAttribute
     $Param2Att.Mandatory = $true
+    $Param2Att.ValueFromPipelineByPropertyName=$true
     $Param2Att.ParameterSetName = '__AllParameterSets'
     $AttribColl2.Add($Param2Att)
     $AttribColl2.Add((New-Object System.Management.Automation.ValidateSetAttribute(Get-MVPContributionType | Select-Object -ExpandProperty Name)))
@@ -91,13 +136,13 @@ Process {
         }
 
         # Verify the Contribution Type
-        $type = Get-MVPContributionType | Where {$_.name -eq $PSBoundParameters['ContributionType']}
+        $type = Get-MVPContributionType | Where-Object {$_.name -eq $PSBoundParameters['ContributionType']}
 
         # Verify the Contribution Technology
-        $Technology = Get-MVPContributionArea -All | Where {$_.name -eq $PSBoundParameters['ContributionTechnology']}
+        $Technology = Get-MVPContributionArea -All | Where-Object {$_.name -eq $PSBoundParameters['ContributionTechnology']}
 
         # Get the Visibility
-        $VisibilityObject = Get-MVPContributionVisibility | Where {$_.Description -eq $Visibility }
+        $VisibilityObject = Get-MVPContributionVisibility | Where-Object {$_.Description -eq $Visibility }
 
         $Body = @"
 {

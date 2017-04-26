@@ -1,8 +1,7 @@
 # MVP
 PowerShell Module to interact with the Microsoft MVP API
+In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), see also this [video tutorial](https://aka.ms/mvp-api-video).
 
-https://mvpapi.portal.azure-api.net/
-https://aka.ms/mvp-api-video
 
 ## Table of Contents  
 * [Usage](#Usage)
@@ -12,7 +11,11 @@ https://aka.ms/mvp-api-video
   * [Get-MVPProfile](#GetMVPProfile)
   * [Get-MVPContributionType](#GetMVPContributionType)
   * [Get-MVPContributionArea](#GetMVPContributionArea)
-  * [New-MVPContribution](#NewMVPContribution)
+  * [Get-MVPContribution](#GetMvpContribution)
+  * [New-MVPContribution](#NewMvpContribution)
+  * [New-MVPContribution (multiple)](#NewMvpContributionMultiple)
+  * [Remove-MVPContribution](#RemoveMvpContribution)
+  * [Remove-MVPContribution (Multiple)](#RemoveMvpContributionMultiple)
 * [Authentication](#Authentication)
 * [Issues](#issues)
 * [ToDo](#Todo)
@@ -35,8 +38,14 @@ Install-module -name MVP
 <a name="Configure"/>
 
 ### Configure connection
+
+Follow the following documentation to retrieve your Subscription key:
+https://mvpapi.portal.azure-api.net/
+
+[(Video Tutorial)](https://aka.ms/mvp-api-video)
+
 ```powershell
-$Subkey = 'abcdef083b5b482f8d99184d318b12f6'
+$Subkey = 'abcdef083b5b482f8d99184d318b12f6' #fakekey
 Set-MVPConfiguration -SubscriptionKey $Subkey
 ```
 A user interface will show to authenticate against the Microsoft API "mvpapi.portal.azure-api.net"
@@ -163,6 +172,7 @@ Webcast
 WebSite Posts
 ```
 
+
 <a name="GetMVPContributionArea"/>
 
 ### Retrieve Contribution Area
@@ -170,6 +180,7 @@ WebSite Posts
 # Retrieve current Area
 Get-MVPContributionArea
 ```
+
 ```
 AwardName                       ContributionArea                                                                                                     
 ---------                       ----------------                                                                                                     
@@ -180,6 +191,8 @@ Cloud and Datacenter Management {@{Id=b003f4ef-066b-e511-810b-fc15b428ced0; Name
 # Retrieve current Area items
 Get-MVPContributionArea | Select-Object -ExpandProperty ContributionArea
 ```
+
+
 <details>
 <summary>Output</summary>
 
@@ -283,6 +296,7 @@ Statuscode    : 0
 Active        : False
 ```
 </details>
+
 
 ```powershell
 # Retrieve all Areas items
@@ -969,16 +983,33 @@ Active        : False
 </details>
 
 
+<a name="GetMvpContribution"/>
+
+
+### Get your contributions
+
+This will retrieve your contribution. limit of 5 per default
+``` powershell
+Get-MVPContribution #by default it will return 5 entries only
+```
+
+You can change the limit using -limit
+```powershell
+Get-MVPContribution -Limit 100 # This will retrieve 100 entries
+```
+
+
+
 <a name="NewMvpContribution"/>
 
-### Add a new Contribution
+### Create a new contribution
 ```powershell
 $Splat = @{
 startdate ='2017/04/25'
 Title='Test from mvpapi.azure-api.net'
 Description = 'Description sample'
 ReferenceUrl='https://github.com/lazywinadmin/MVP'
-AnnualQuantity='0'
+AnnualQuantity='1'
 SecondAnnualQuantity='0'
 AnnualReach = '0'
 Visibility = 'EveryOne' # Get-MVPContributionVisibility
@@ -989,6 +1020,7 @@ ContributionTechnology = 'PowerShell' # Get-MVPContributionArea
 New-MVPContribution @splat
 ```
 
+Output:
 ```
 ContributionId         : 123456
 ContributionTypeName   : Blog Site Posts
@@ -1003,6 +1035,204 @@ SecondAnnualQuantity   : 0
 AnnualReach            : 0
 Description            : Description sample
 ```
+
+You can double check on the MVP website, the entry was created
+
+![Alt text](Media/New-MVPContribution02.jpg?raw=true "New-MVPContribution")
+
+
+If you are not sure which ContributionTechnology or ContributionType, the function has dynamicparameters that can help you find the right information, example:
+
+![Alt text](Media/New-MVPContribution01.jpg?raw=true "New-MVPContribution")
+![Alt text](Media/New-MVPContribution03.jpg?raw=true "New-MVPContribution")
+
+
+
+<a name="NewMvpContributionMultiple"/>
+
+### Create multiple contributions
+
+__From a CSV__
+
+CSV Content [(file)](Examples/):
+```
+startdate,title,description,referenceurl,AnnualQuantity,SecondAnnualQuantity,AnnualReach,Visibility,ContributionType,ContributionTechnology
+2017-01-01,Test1,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-02,Test2,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-03,Test3,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-04,Test4,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-05,Test5,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-06,Test6,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-07,Test7,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-08,Test8,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-09,Test9,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2017-01-10,Test10,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+```
+
+```powershell
+import-csv .\Examples\MultipleEntries.csv | New-MVPContribution
+```
+The above command will create all the entries
+
+<details>
+<summary>Output</summary>
+
+```
+ContributionId         : 731771
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-01T00:00:00
+Title                  : Test1
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731772
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-02T00:00:00
+Title                  : Test2
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731773
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-03T00:00:00
+Title                  : Test3
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731774
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-04T00:00:00
+Title                  : Test4
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731775
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-05T00:00:00
+Title                  : Test5
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731776
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-06T00:00:00
+Title                  : Test6
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731777
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-07T00:00:00
+Title                  : Test7
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731778
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-08T00:00:00
+Title                  : Test8
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731779
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-09T00:00:00
+Title                  : Test9
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+
+ContributionId         : 731780
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-12-10T00:00:00
+Title                  : Test10
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 1
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Some content
+```
+</details>
+
+We can see all the entries were created on the portal
+
+![Alt text](Media/New-MVPContribution04.jpg?raw=true "New-MVPContribution")
+
+
+<a name="RemoveMvpContribution"/>
+
+### Remove an entry
+```powershell
+Remove-MVPContribution -ID 731771
+```
+<a name="RemoveMvpContributionMultiple"/>
+
+### Remove multiple entries at once
+This will delete the entries between 731771 and 731780
+```powershell
+731771..731780 | foreach-object {
+    if(Get-MVPContribution -ID $_){
+        Remove-MVPContribution -ID $_
+    }
+}
+```
+
 
 <a name="Authentication"/>
 
