@@ -4,13 +4,37 @@ PowerShell Module to interact with the Microsoft MVP API
 https://mvpapi.portal.azure-api.net/
 https://aka.ms/mvp-api-video
 
+## Table of Contents  
+* [Usage](#Usage)
+  * [Install the module](#Install)
+  * [Configure connection](#Configure)
+  * [Functions List](#Functions)
+  * [Get-MVPProfile](#GetMVPProfile)
+  * [Get-MVPContributionType](#GetMVPContributionType)
+  * [Get-MVPContributionArea](#GetMVPContributionArea)
+  * [New-MVPContribution](#NewMVPContribution)
+* [Authentication](#Authentication)
+* [Issues](#issues)
+* [ToDo](#Todo)
+* [Contribution](#Help)
+* [Notes/Thanks](#Notes)
+* [More Information](#MoreInformation)
+
+
+<a name="Usage"/>
+
 ## Usage
+
+<a name="Install"/>
 
 ### Install the module
 ```powershell
 Install-module -name MVP
 ```
-### Set your connection
+
+<a name="Configure"/>
+
+### Configure connection
 ```powershell
 $Subkey = 'abcdef083b5b482f8d99184d318b12f6'
 Set-MVPConfiguration -SubscriptionKey $Subkey
@@ -23,6 +47,7 @@ A user interface will show to authenticate against the Microsoft API "mvpapi.por
 
 ![Alt text](Media/Set-MVPConfiguration03.jpg?raw=true "Set-MVPConfiguration")
 
+<a name="Functions"/>
 
 ### Check the command available
 ```powershell
@@ -48,6 +73,7 @@ Function        Set-MVPContribution                                0.0.1.0    MV
 Function        Set-MVPOnlineIdentity                              0.0.1.0    MVP
 ```
 
+<a name="GetMVPProfile"/>
 
 ### Retrieve a MVP Profile
 
@@ -103,6 +129,7 @@ UpcomingEvent        : {}
 ```
 
 
+<a name="GetMVPContributionType"/>
 
 ### Retrieve Contribution Type
 ```powershell
@@ -135,6 +162,9 @@ Video
 Webcast
 WebSite Posts
 ```
+
+<a name="GetMVPContributionArea"/>
+
 ### Retrieve Contribution Area
 ```powershell
 # Retrieve current Area
@@ -150,8 +180,10 @@ Cloud and Datacenter Management {@{Id=b003f4ef-066b-e511-810b-fc15b428ced0; Name
 # Retrieve current Area items
 Get-MVPContributionArea | Select-Object -ExpandProperty ContributionArea
 ```
-```
+<details>
+<summary>Output</summary>
 
+```
 Id            : b003f4ef-066b-e511-810b-fc15b428ced0
 Name          : Azure Stack
 AwardName     : Cloud and Datacenter Management
@@ -250,6 +282,7 @@ AwardCategory : My Awarded Category
 Statuscode    : 0
 Active        : False
 ```
+</details>
 
 ```powershell
 # Retrieve all Areas items
@@ -936,15 +969,53 @@ Active        : False
 </details>
 
 
+<a name="NewMvpContribution"/>
 
+### Add a new Contribution
+```powershell
+$Splat = @{
+startdate ='2017/04/25'
+Title='Test from mvpapi.azure-api.net'
+Description = 'Description sample'
+ReferenceUrl='https://github.com/lazywinadmin/MVP'
+AnnualQuantity='0'
+SecondAnnualQuantity='0'
+AnnualReach = '0'
+Visibility = 'EveryOne' # Get-MVPContributionVisibility
+ContributionType = 'Blog Site Posts' # Get-MVPContributionType
+ContributionTechnology = 'PowerShell' # Get-MVPContributionArea
+}
+
+New-MVPContribution @splat
+```
+
+```
+ContributionId         : 123456
+ContributionTypeName   : Blog Site Posts
+ContributionType       : @{Id=df6464de-173a-e411-cccc-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
+ContributionTechnology : @{Id=7cc301bb-184a-e411-dddd-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+StartDate              : 2017-04-25T00:00:00
+Title                  : Test from mvpapi.azure-api.net
+ReferenceUrl           : https://github.com/lazywinadmin/MVP
+Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
+AnnualQuantity         : 0
+SecondAnnualQuantity   : 0
+AnnualReach            : 0
+Description            : Description sample
+```
+
+<a name="Authentication"/>
 
 ## Authentication
  * Ocp-Apim-Subscription-Key : Subscription key which provides access to this API. Found in your Profile.
  * Authorization : OAuth 2.0 access token obtained from MSFT Live OAuth. Supported grant types: Authorization code.
 
-## Issues
- * Not able to retrieve the Authentication Hash from MSFT Live OAuth using PowerShell. (for now you can retrieve your hash using the 'TRY IT' on https://mvpapi.portal.azure-api.net/
+<a name="Issues"/>
 
+## Issues
+ * ~~Not able to retrieve the Authentication Hash from MSFT Live OAuth using PowerShell. (for now you can retrieve your hash using the 'TRY IT' on https://mvpapi.portal.azure-api.net/~~
+
+<a name="Todo"/>
 
 ## Function Todo
 - [x] Get-MVPContribution (All and by ID)
@@ -962,3 +1033,21 @@ Active        : False
 - [x] Set-MVPContribution (PUT) (to edit an existing one)
 - [x] Set-MVPOnlineIdentity (PUT)
 - [x] Remove-MVPConfiguration
+
+<a name="MoreInformation"/>
+
+## More Information
+* [mvpapi.portal.azure-api.net](https://mvpapi.portal.azure-api.net/)
+* [mvp-api-video](https://aka.ms/mvp-api-video)
+
+<a name="Notes"/>
+
+## Notes
+Thanks go to:
+* __Emin Atac__: Emin made a huge contribution to this module, especially when I was struggling with the Authentication part, Merci!!
+
+<a name="Help"/>
+
+## Help !!
+
+Would love contributors, suggestions, feedback, and other help! Feel free to open an Issue ticket
