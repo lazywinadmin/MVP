@@ -1,30 +1,32 @@
 ﻿Function Get-MVPContribution {
 <#
-    .SYNOPSIS
-        Invoke the GetContributions REST API to retrieve your contributions 
+.SYNOPSIS
+    Invoke the GetContributions REST API to retrieve your contributions 
 
-    .DESCRIPTION
-        Gets yours contributions without parameter or by specifying the id of a contribution
+.DESCRIPTION
+    Gets yours contributions without parameter or by specifying the id of a contribution
 
-    .PARAMETER Offset
-        Page skip integer as int32
+.PARAMETER Offset
+    Page skip integer as int32
 
-    .PARAMETER Limit
-        Page take integer as int32
+.PARAMETER Limit
+    Page take integer as int32
 
-    .PARAMETER ID
-        It's the id of a contribution
+.PARAMETER ID
+    It's the id of a contribution
 
-    .EXAMPLE
-        Get-MVPContribution
-        
-        It gets your most recent contributions from range 1 to 5 
+.EXAMPLE
+    Get-MVPContribution
+    
+    It gets your most recent contributions from range 1 to 5 
 
-    .EXAMPLE
-        Get-MVPContribution -ID 631670
+.EXAMPLE
+    Get-MVPContribution -ID 631670
 
-        It gets your contribution id 631670
+    It gets your contribution id 631670
 
+.NOTES
+    https://github.com/lazywinadmin/MVP
 #>
 [CmdletBinding(DefaultParameterSetName='All')]
 Param(
@@ -38,17 +40,20 @@ Param(
     [Alias('ContributionId')]
     [int32]$ID
 )
-Begin {}
 Process {
 
+    $Scriptname = (Get-Variable -name MyInvocation -Scope 0 -ValueOnly).MyCommand
+
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
-
-	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
-
-    } else {
-
+	    Write-Warning -Message "[$Scriptname] You need to use Set-MVPConfiguration first to set the Primary Key"
+        break
+    }
+    
+    Try {
+        Write-Verbose -message "[$Scriptname] Set Configuration"
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
 
+        Write-Verbose -message "[$Scriptname] Build Splatting"
         $Splat = @{
             Uri = "https://mvpapi.azure-api.net/mvp/api/contributions/$($Offset)/$($Limit)"
             Headers = @{
@@ -58,23 +63,22 @@ Process {
             ErrorAction = 'Stop'
         }
 
-        if ($ID) {
+        if ($PSBoundParameters['ID']) {
+            Write-Verbose -message "[$Scriptname] ID Specified"
             $Splat.Uri = "https://mvpapi.azure-api.net/mvp/api/contributions/$($ID)"
+            Write-Verbose -message "[$Scriptname] URI = $($Splat.Uri)"
+        Write-Verbose -message "[$Scriptname] Querying Rest api..."
+            Invoke-RestMethod @Splat
         }
-        try {
-            if ($ID) {
-                Invoke-RestMethod @Splat
-                Write-Verbose -Message "Displaying contribution id $($ID)"
-                # error 500:(Internal Server Error) when ID is not found
-            } else {
-                $contributions = (Invoke-RestMethod @Splat)
-                $contributions.contributions
-                Write-Verbose -Message "Displaying contributions range from $($Offset) to $($($Offset)+$($Limit)) of total $($contributions.TotalContributions) contributions"
-            }
-        } catch {
-            Write-Warning -Message "Failed to invoke the Get-MVPContribution API because $($_.Exception.Message)"
+        else{
+            Write-Verbose -Message "[$Scriptname] Displaying contributions range from $($Offset) to $($($Offset)+$($Limit))"
+            Write-Verbose -message "[$Scriptname] URI = $($Splat.Uri)"
+            Write-Verbose -message "[$Scriptname] Querying Rest api..."
+            (Invoke-RestMethod @Splat).Contributions
         }
+    }
+    catch {
+        $PSCmdlet.ThrowTerminatingError($_)
     }   
 }
-End {}
 }
