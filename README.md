@@ -1,6 +1,11 @@
 # MVP
-PowerShell Module to interact with the Microsoft MVP API
-In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), see also this [video tutorial](https://aka.ms/mvp-api-video).
+PowerShell Module to interact with the Microsoft MVP API.
+
+In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps](#Configure) or you follow the documentation from Microsoft:
+
+* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started) 
+* [Video Tutorial](https://aka.ms/mvp-api-video)
+* [Microsoft MVP API](https://mvpapi.portal.azure-api.net/)
 
 
 ## Table of Contents  
@@ -39,14 +44,25 @@ Install-module -name MVP
 
 ### Configure connection
 
-Follow the following documentation to retrieve your Subscription key:
-https://mvpapi.portal.azure-api.net/
+Follow the following steps:
 
-[(Video Tutorial)](https://aka.ms/mvp-api-video)
+1. Go to the [Microsoft MVP API Developer Portal](https://mvpapi.portal.azure-api.net/)
+2. Click the ```Sign In``` button and sign in with your Microsoft Account. It must be the same Microsoft Account as you use for your Microsoft MVP Site access.
+3. Subscribe to the ```MVP Production``` product.
+4. Go to the ```PRODUCTS``` tab, and choose ```MVP Production```.
+5. Click the ```Subscribe``` button.
+6. This request will be reviewed and Accepted / Declined by the admin in one or two business days. The admin verifies your access permission based on your Microsoft Account. It must be the same Microsoft Account as you use for your Microsoft MVP Site access.
+7. Once approved, on the top right corner click on your name and select ```PROFILE```
+8. You should see a subscription for the ```MVP Production```
+9. On the ```Primary Key``` line, select ```Show``` and this is your Subscription Key
+10. You ready to use the module, see below
+
 
 ```powershell
-$Subkey = 'abcdef083b5b482f8d99184d318b12f6' #fakekey
-Set-MVPConfiguration -SubscriptionKey $Subkey
+# Set your connection to the MVP API
+$SubscriptionKey = 'abcdef083b5b482f8d99184d318b12f6' # this is a fake key ;)
+Set-MVPConfiguration -SubscriptionKey $SubscriptionKey
+# This will show a Window to authenticate against Microsoft API
 ```
 A user interface will show to authenticate against the Microsoft API "mvpapi.portal.azure-api.net"
 
@@ -60,6 +76,7 @@ A user interface will show to authenticate against the Microsoft API "mvpapi.por
 
 ### Check the command available
 ```powershell
+# Retrieve all the commands
 Get-Command -module MVP
 ```
 ```
@@ -86,8 +103,15 @@ Function        Set-MVPOnlineIdentity                              0.0.1.0    MV
 
 ### Retrieve a MVP Profile
 
+
 ```powershell
-Get-MVPProfile -ID 5000475 #Francois-Xavier Cat
+# Retrieve your own profile
+Get-MVPProfile
+```
+
+```powershell
+# Retrieve a specific profile
+Get-MVPProfile -ID 5000475
 ```
 ```
 Metadata             : @{PageTitle=Francois-Xavier Cat is a Microsoft MVP in PowerShell who has been in the IT field since 2007. He is currently an 
