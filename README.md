@@ -44,7 +44,8 @@ Install-module -name MVP
 
 ### Configure connection
 
-Follow the following steps:
+Follow the following steps to retrieve the Subscription Key.
+Fortunately you only need to do this once.
 
 1. Go to the [Microsoft MVP API Developer Portal](https://mvpapi.portal.azure-api.net/)
 2. Click the ```Sign In``` button and sign in with your Microsoft Account. It must be the same Microsoft Account as you use for your Microsoft MVP Site access.
