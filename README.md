@@ -22,6 +22,7 @@ In order to use this module you need to get a Subscription key from [https://mvp
   * [Remove-MVPContribution](#RemoveMvpContribution)
   * [Remove-MVPContribution (Multiple)](#RemoveMvpContributionMultiple)
 * [Authentication](#Authentication)
+* [Persistent SubscriptionKey](#PersistentSubscriptionKey)
 * [Issues](#issues)
 * [ToDo](#Todo)
 * [Contribution](#Help)
@@ -1262,8 +1263,31 @@ This will delete the entries between 731771 and 731780
 <a name="Authentication"/>
 
 ## Authentication
+
+As seen in [Configure connection](#Configure) when you start using the module, you will need to authenticate against Microsoft Live OAuth.
+
  * Ocp-Apim-Subscription-Key : Subscription key which provides access to this API. Found in your Profile.
  * Authorization : OAuth 2.0 access token obtained from MSFT Live OAuth. Supported grant types: Authorization code.
+
+<a name="PersistentSubscriptionKey"/>
+
+## Persistent SubscriptionKey
+
+If you want to save your SubscriptionKey, we recommend you store it inside your PowerShell profile.
+For Example, you can add the following:
+
+```
+# MVP Subscription Key
+$MVPSubscriptionKey = '<YOUR KEY>'
+Set-MVPConfiguration -SubscriptionKey $MVPSubscriptionKey
+```
+
+Accessing your PowerShell profile:
+
+```
+notepad $profile
+```
+
 
 <a name="Issues"/>
 
