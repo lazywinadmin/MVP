@@ -1312,6 +1312,8 @@ notepad $profile
 - [x] Set-MVPContribution (PUT) (to edit an existing one)
 - [x] Set-MVPOnlineIdentity (PUT)
 - [x] Remove-MVPConfiguration
+- [ ] Backup-MVPContribution (Using Get-MVPContribution under the hood and save to CSV ? JSON ?)
+- [ ] Import-MVPContribution (Using New-MVPContribution, see [New-MVPContribution (multiple)](#NewMvpContributionMultiple))
 
 <a name="MoreInformation"/>
 
