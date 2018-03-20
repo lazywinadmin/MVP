@@ -1293,6 +1293,7 @@ notepad $profile
 
 ## Issues
  * ~~Not able to retrieve the Authentication Hash from MSFT Live OAuth using PowerShell. (for now you can retrieve your hash using the 'TRY IT' on https://mvpapi.portal.azure-api.net/~~
+ * Known Issue: "My Added entries does not show on the portal". See workaround #15
 
 <a name="Todo"/>
 
@@ -1305,6 +1306,7 @@ notepad $profile
 - [x] Get-MVPProfile (Current and by ID)
 - [x] Get-MVPProfileImage
 - [x] New-MVPContribution (POST)
+   - [ ] Add a Switch for `-CheckExisting`
 - [x] New-MVPOnlineIdentity (POST)
 - [x] Remove-MVPContribution (DELETE)
 - [x] Remove-MVPOnlineIdentity (DELETE)
@@ -1313,7 +1315,8 @@ notepad $profile
 - [x] Set-MVPOnlineIdentity (PUT)
 - [x] Remove-MVPConfiguration
 - [ ] Backup-MVPContribution (Using Get-MVPContribution under the hood and save to CSV ? JSON ?)
-- [ ] Import-MVPContribution (Using New-MVPContribution, see [New-MVPContribution (multiple)](#NewMvpContributionMultiple))
+- [ ] Import-MVPContribution (Using New-MVPContribution, see [New-MVPContribution (multiple)](#NewMvpContributionMultiple)) 
+- [ ] Test-MVPContribution (Checks if entry exists, wrapper around Get-MVPContribution based on Date, Title, Type, Techno, Link)
 
 <a name="MoreInformation"/>
 
