@@ -23,6 +23,7 @@ In order to use this module you need to get a Subscription key from [https://mvp
   * [Remove-MVPContribution (Multiple)](#RemoveMvpContributionMultiple)
 * [Authentication](#Authentication)
 * [Persistent SubscriptionKey](#PersistentSubscriptionKey)
+* [Clear Authenticaton](#Clearauthentication)
 * [Issues](#issues)
 * [ToDo](#Todo)
 * [Contribution](#Help)
@@ -1287,6 +1288,14 @@ Accessing your PowerShell profile:
 ```
 notepad $profile
 ```
+
+<a name="Clearauthentication"/>
+
+## Clear the authentication from your browser
+
+During the authentication, the module open an Internet Explorer window to authenticate the user against the Microsoft backend.
+
+If you need to clear this information, you'll seed to clear the Internet Explorer cache.
 
 
 <a name="Issues"/>
