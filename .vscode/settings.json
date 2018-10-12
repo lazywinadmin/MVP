@@ -1,0 +1,6 @@
+{
+    "editor.autoIndent":true,
+    "editor.detectIndentation":false,
+    "editor.tabSize": 4,
+    "editor.renderWhitespace": "all"
+}
