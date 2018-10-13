@@ -9,7 +9,11 @@
     .PARAMETER ContributionTechnology
         Specifies the Contribution technology
         This parameter is dynamic and is retrieving the information from Get-MVPContributionArea
-        
+
+    .PARAMETER AdditionalTechnologies
+        Specifies an additional Contribution
+        This parameter is dynamic and is retrieving the information from Get-MVPContributionArea
+
     .PARAMETER ContributionType
         Specifies the Contribution Type
         This parameter is dynamic and is retrieving the information from Get-MVPContributionType
@@ -45,7 +49,7 @@
 
     .EXAMPLE
     $Splat = @{
-        startdate ='2017/04/25'
+        startdate ='2018/10/10'
         Title='Test from mvpapi.azure-api.net'
         Description = 'Description sample'
         ReferenceUrl='https://github.com/lazywinadmin/MVP'
@@ -55,6 +59,7 @@
         Visibility = 'EveryOne' # Get-MVPContributionVisibility
         ContributionType = 'Blog Site Posts' # Get-MVPContributionType
         ContributionTechnology = 'PowerShell' # Get-MVPContributionArea
+        AdditionalTechnologies = 'ARM & DevOps on Azure (Chef, Puppet, Salt, Ansible, Dev/Test Lab)' # Get-MVPContributionArea
     }
     New-MVPContribution @splat
 
@@ -91,28 +96,43 @@ Param(
     [String]$Visibility = 'Microsoft'
 )
 DynamicParam {
-
+    # Create dictionary
     $Dictionary = New-Object -TypeName System.Management.Automation.RuntimeDefinedParameterDictionary
 
+    # ContributionTechnology
     $ParameterName = 'ContributionTechnology'
-    $AttribColl1 = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-    $Param1Att = New-Object System.Management.Automation.ParameterAttribute
+    $AttribColl1 = New-Object -TypeName System.Collections.ObjectModel.Collection[System.Attribute]
+    $Param1Att = New-Object -TypeName System.Management.Automation.ParameterAttribute
     $Param1Att.Mandatory = $true
     $Param1Att.ValueFromPipelineByPropertyName = $true
     $Param1Att.ParameterSetName = '__AllParameterSets'
     $AttribColl1.Add($Param1Att)
-    $AttribColl1.Add((New-Object System.Management.Automation.ValidateSetAttribute(Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
-    $Dictionary.Add($ParameterName,(New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttribColl1)))
+    $AttribColl1.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute(Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
+    $Dictionary.Add($ParameterName,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttribColl1)))
 
+    # ContributionType
     $ParameterID = 'ContributionType'
-    $AttribColl2 = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-    $Param2Att = New-Object System.Management.Automation.ParameterAttribute
+    $AttribColl2 = New-Object -TypeName System.Collections.ObjectModel.Collection[System.Attribute]
+    $Param2Att = New-Object -TypeName System.Management.Automation.ParameterAttribute
     $Param2Att.Mandatory = $true
     $Param2Att.ValueFromPipelineByPropertyName=$true
     $Param2Att.ParameterSetName = '__AllParameterSets'
     $AttribColl2.Add($Param2Att)
-    $AttribColl2.Add((New-Object System.Management.Automation.ValidateSetAttribute(Get-MVPContributionType | Select-Object -ExpandProperty Name)))
-    $Dictionary.Add($ParameterID,(New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterID, [string], $AttribColl2)))
+    $AttribColl2.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute(Get-MVPContributionType | Select-Object -ExpandProperty Name)))
+    $Dictionary.Add($ParameterID,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter($ParameterID, [string], $AttribColl2)))
+
+    # AdditionalTechnologies
+    $ParameterName3 = 'AdditionalTechnologies'
+    $AttribColl3 = New-Object -TypeName System.Collections.ObjectModel.Collection[System.Attribute]
+    $Param3Att = New-Object -TypeName System.Management.Automation.ParameterAttribute
+    $Param3Att.Mandatory = $false
+    $Param3Att.ValueFromPipelineByPropertyName = $true
+    $Param3Att.ParameterSetName = '__AllParameterSets'
+    $AttribColl3.Add($Param3Att)
+    $AttribColl3.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute(Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
+    $Dictionary.Add($ParameterName3,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter($ParameterName3, [string], $AttribColl3)))
+
+    #Return dictionary
     $Dictionary
 }
 Begin {}
@@ -136,13 +156,20 @@ Process {
         }
 
         # Verify the Contribution Type
-        $type = Get-MVPContributionType | Where-Object {$_.name -eq $PSBoundParameters['ContributionType']}
+        $type = Get-MVPContributionType |
+            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['ContributionType']}
 
         # Verify the Contribution Technology
-        $Technology = Get-MVPContributionArea -All | Where-Object {$_.name -eq $PSBoundParameters['ContributionTechnology']}
+        $Technology = Get-MVPContributionArea -All |
+            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['ContributionTechnology']}
+
+        # Verify the Additional Technology
+        $AdditionalTechnologies = Get-MVPContributionArea -All |
+            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['AdditionalTechnologies']}
 
         # Get the Visibility
-        $VisibilityObject = Get-MVPContributionVisibility | Where-Object {$_.Description -eq $Visibility }
+        $VisibilityObject = Get-MVPContributionVisibility |
+            Where-Object -FilterScript {$_.Description -eq $Visibility }
 
         $Body = @"
 {
@@ -159,6 +186,14 @@ Process {
     "AwardName": "$($Technology.awardname)",
     "AwardCategory": "$($Technology.awardcategory)"
   },
+  "AdditionalTechnologies": [
+    {
+        "Id": "$($AdditionalTechnologies.id)",
+        "Name": "$($AdditionalTechnologies.name)",
+        "AwardName": "$($AdditionalTechnologies.awardname)",
+        "AwardCategory": "$($AdditionalTechnologies.awardcategory)"
+    }
+  ],
   "StartDate": "$StartDate",
   "Title": "$Title",
   "ReferenceUrl": "$ReferenceUrl",
@@ -174,7 +209,7 @@ Process {
 }
 "@  
         try {
-            Write-Verbose "About to create a new contribution with Body $($Body)"
+            Write-Verbose -Message "About to create a new contribution with Body $($Body)"
             Invoke-RestMethod @Splat -Body $Body
         } catch {
             Write-Warning -Message "Failed to invoke the PostContribution API because $($_.Exception.Message)"
