@@ -1,7 +1,7 @@
 # MVP
 PowerShell Module to interact with the Microsoft MVP API.
 
-In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps](#Configure) or you follow the documentation from Microsoft:
+In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
 
 * [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started) 
 * [Video Tutorial](https://aka.ms/mvp-api-video)
@@ -21,6 +21,7 @@ In order to use this module you need to get a Subscription key from [https://mvp
   * [New-MVPContribution (multiple)](#NewMvpContributionMultiple)
   * [Remove-MVPContribution](#RemoveMvpContribution)
   * [Remove-MVPContribution (Multiple)](#RemoveMvpContributionMultiple)
+  * [Show-MVPProfile](#ShowMvpProfile)
 * [Authentication](#Authentication)
 * [Persistent SubscriptionKey](#PersistentSubscriptionKey)
 * [Clear Authenticaton](#Clearauthentication)
@@ -37,14 +38,14 @@ In order to use this module you need to get a Subscription key from [https://mvp
 
 <a name="Install"/>
 
-### Install the module
+### Install the Module
 ```powershell
-Install-module -name MVP
+Install-module -Name MVP
 ```
 
 <a name="Configure"/>
 
-### Configure connection
+### Configure Connection
 
 Follow the following steps to retrieve the Subscription Key.
 Fortunately you only need to do this once.
@@ -58,14 +59,14 @@ Fortunately you only need to do this once.
 7. Once approved, on the top right corner click on your name and select ```PROFILE```
 8. You should see a subscription for the ```MVP Production```
 9. On the ```Primary Key``` line, select ```Show``` and this is your Subscription Key
-10. You ready to use the module, see below
+10. You are ready to use the module, see below
 
 
 ```powershell
 # Set your connection to the MVP API
 $SubscriptionKey = 'abcdef083b5b482f8d99184d318b12f6' # this is a fake key ;)
 Set-MVPConfiguration -SubscriptionKey $SubscriptionKey
-# This will show a Window to authenticate against Microsoft API
+# This will show a window to authenticate against Microsoft API
 ```
 A user interface will show to authenticate against the Microsoft API "mvpapi.portal.azure-api.net"
 
@@ -77,7 +78,7 @@ A user interface will show to authenticate against the Microsoft API "mvpapi.por
 
 <a name="Functions"/>
 
-### Check the command available
+### Check Available Commands
 ```powershell
 # Retrieve all the commands
 Get-Command -module MVP
@@ -85,21 +86,22 @@ Get-Command -module MVP
 ```
 CommandType     Name                                               Version    Source                                                                 
 -----------     ----                                               -------    ------                                                                 
-Function        Get-MVPContribution                                0.0.1.0    MVP                                                                    
-Function        Get-MVPContributionArea                            0.0.1.0    MVP                                                                    
-Function        Get-MVPContributionType                            0.0.1.0    MVP                                                                    
-Function        Get-MVPContributionVisibility                      0.0.1.0    MVP                                                                    
-Function        Get-MVPOnlineIdentity                              0.0.1.0    MVP                                                                    
-Function        Get-MVPProfile                                     0.0.1.0    MVP                                                                    
-Function        Get-MVPProfileImage                                0.0.1.0    MVP                                                                    
-Function        New-MVPContribution                                0.0.1.0    MVP                                                                    
-Function        New-MVPOnlineIdentity                              0.0.1.0    MVP                                                                    
-Function        Remove-MVPConfiguration                            0.0.1.0    MVP                                                                    
-Function        Remove-MVPContribution                             0.0.1.0    MVP                                                                    
-Function        Remove-MVPOnlineIdentity                           0.0.1.0    MVP                                                                    
-Function        Set-MVPConfiguration                               0.0.1.0    MVP                                                                    
-Function        Set-MVPContribution                                0.0.1.0    MVP                                                                    
-Function        Set-MVPOnlineIdentity                              0.0.1.0    MVP
+Function        Get-MVPContribution                                0.0.2.0    MVP                                                                    
+Function        Get-MVPContributionArea                            0.0.2.0    MVP                                                                    
+Function        Get-MVPContributionType                            0.0.2.0    MVP                                                                    
+Function        Get-MVPContributionVisibility                      0.0.2.0    MVP                                                                    
+Function        Get-MVPOnlineIdentity                              0.0.2.0    MVP                                                                    
+Function        Get-MVPProfile                                     0.0.2.0    MVP                                                                    
+Function        Get-MVPProfileImage                                0.0.2.0    MVP                                                                    
+Function        New-MVPContribution                                0.0.2.0    MVP                                                                    
+Function        New-MVPOnlineIdentity                              0.0.2.0    MVP                                                                    
+Function        Remove-MVPConfiguration                            0.0.2.0    MVP                                                                    
+Function        Remove-MVPContribution                             0.0.2.0    MVP                                                                    
+Function        Remove-MVPOnlineIdentity                           0.0.2.0    MVP                                                                    
+Function        Set-MVPConfiguration                               0.0.2.0    MVP                                                                    
+Function        Set-MVPContribution                                0.0.2.0    MVP                                                                    
+Function        Set-MVPOnlineIdentity                              0.0.2.0    MVP
+Function        Show-MVPProfile                                    0.0.2.0    MVP
 ```
 
 <a name="GetMVPProfile"/>
@@ -1013,14 +1015,14 @@ Active        : False
 <a name="GetMvpContribution"/>
 
 
-### Get your contributions
+### Get Your Contributions
 
-This will retrieve your contribution. limit of 5 per default
+This will retrieve your contributions. By default it returns 5 entries.
 ``` powershell
-Get-MVPContribution #by default it will return 5 entries only
+Get-MVPContribution # By default it will return 5 entries only
 ```
 
-You can change the limit using -limit
+You can change the limit using -Limit
 ```powershell
 Get-MVPContribution -Limit 100 # This will retrieve 100 entries
 ```
@@ -1029,7 +1031,7 @@ Get-MVPContribution -Limit 100 # This will retrieve 100 entries
 
 <a name="NewMvpContribution"/>
 
-### Create a new contribution
+### Create a New Contribution
 ```powershell
 $Splat = @{
 startdate ='2017/04/25'
@@ -1077,7 +1079,7 @@ If you are not sure which ContributionTechnology or ContributionType, the functi
 
 <a name="NewMvpContributionMultiple"/>
 
-### Create multiple contributions
+### Create Multiple Contributions
 
 __From a CSV__
 
@@ -1097,7 +1099,7 @@ startdate,title,description,referenceurl,AnnualQuantity,SecondAnnualQuantity,Ann
 ```
 
 ```powershell
-import-csv .\Examples\MultipleEntries.csv | New-MVPContribution
+Import-Csv .\Examples\MultipleEntries.csv | New-MVPContribution
 ```
 The above command will create all the entries
 
@@ -1244,13 +1246,13 @@ We can see all the entries were created on the portal
 
 <a name="RemoveMvpContribution"/>
 
-### Remove an entry
+### Remove an Entry
 ```powershell
 Remove-MVPContribution -ID 731771
 ```
 <a name="RemoveMvpContributionMultiple"/>
 
-### Remove multiple entries at once
+### Remove Multiple Entries at once
 This will delete the entries between 731771 and 731780
 ```powershell
 731771..731780 | foreach-object {
@@ -1258,6 +1260,14 @@ This will delete the entries between 731771 and 731780
         Remove-MVPContribution -ID $_
     }
 }
+```
+
+<a name="ShowMvpProfile"/>
+
+### Show an MVP Profile
+This will display the specified MVP IDs in the default browser.
+```powershell
+Show-MVPProfile -ID 4025267
 ```
 
 
@@ -1275,7 +1285,7 @@ As seen in [Configure connection](#Configure) when you start using the module, y
 ## Persistent SubscriptionKey
 
 If you want to save your SubscriptionKey, we recommend you store it inside your PowerShell profile.
-For Example, you can add the following:
+For example, you can add the following:
 
 ```
 # MVP Subscription Key
@@ -1293,9 +1303,9 @@ notepad $profile
 
 ## Clear the authentication from your browser
 
-During the authentication, the module open an Internet Explorer window to authenticate the user against the Microsoft backend.
+During authentication, the module opens an Internet Explorer window to authenticate the user against the Microsoft backend.
 
-If you need to clear this information, you'll seed to clear the Internet Explorer cache.
+If you need to clear this information, you'll need to clear the Internet Explorer cache.
 
 
 <a name="Issues"/>
