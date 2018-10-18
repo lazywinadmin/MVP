@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/u2fijh6p0ofe0hpo?svg=true)](https://ci.appveyor.com/project/lazywinadmin/mvp)
+
 # MVP
 PowerShell Module to interact with the Microsoft MVP API.
 
