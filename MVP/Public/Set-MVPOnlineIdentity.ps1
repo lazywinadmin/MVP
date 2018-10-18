@@ -7,16 +7,27 @@ Function Set-MVPOnlineIdentity {
         Updates an Online Identity
 
     .PARAMETER ID
+        Specify the Id of the online identity in a int32 format
+
     .PARAMETER SocialNetwork
+        Specify the Social Network
+
     .PARAMETER URL
+        Specify the URL
+
     .PARAMETER AllowMicrosoftToQueryMyId
+        Specify if you want to allo Microsoft to query the ID
+
     .PARAMETER Visibility
+        Specify the Visbility (see Get-MVPContributionVisibility)
 
     .EXAMPLE
-        Get-MVPOnlineIdentity -ID  123872 | Set-MVPOnlineIdentity -Verbose -SocialNetwork Code
+        Get-MVPOnlineIdentity -ID  123872 |
+            Set-MVPOnlineIdentity -Verbose -SocialNetwork Code
 
     .EXAMPLE
-        Get-MVPOnlineIdentity -ID  123872 | Set-MVPOnlineIdentity -Verbose
+        Get-MVPOnlineIdentity -ID  123872 |
+        Set-MVPOnlineIdentity -Verbose -URL 'https://facebook.com/myprofile'
 
 #>
 [CmdletBinding()]

@@ -8,6 +8,9 @@
 
     .PARAMETER ID
         It's the id of a contribution
+    
+    .EXAMPLE
+        Remove-MVPContribution -ID 123456
 
     .NOTES
         https://github.com/lazywinadmin/MVP

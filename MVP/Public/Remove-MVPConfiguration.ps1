@@ -1,4 +1,14 @@
 ﻿Function Remove-MVPConfiguration {
+<#
+.SYNOPSIS
+    Remove the current MVPConfiguration
+.DESCRIPTION
+    Remove the current MVPConfiguration
+.PARAMETER ClientID
+    Specify your ClientID
+.EXAMPLE
+    Remove-MVPConfiguration
+#>
 [CmdletBinding()]
 Param(
     [Parameter()]
