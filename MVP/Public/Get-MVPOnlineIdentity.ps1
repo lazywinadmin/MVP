@@ -9,8 +9,7 @@
     .PARAMETER Id
         It's the id of the online identity in a int32 format
 
-    .PARAMETER NominationId
-
+    .PARAMETER NominationsId
         It's your MVP Nomination Id in a GUID format a.k.a your OnlineIdentityId
 
     .EXAMPLE

@@ -6,16 +6,44 @@
     .DESCRIPTION
         Updates a Contribution item
 
+    .PARAMETER ContributionID
+        Specify the Contribution ID to modify
+
     .PARAMETER ContributionTechnology
+        Specify the ContributionTechnology (see Get-MVPContributionArea)
+
     .PARAMETER ContributionType
+        Specify the ContributionType (see Get-MVPContributionType)
+
     .PARAMETER StartDate
+        Specify the StartDate of the contribution
+
+        Example '2018/10/10'
     .PARAMETER Title
+        Specify the Title of your contribution
+
     .PARAMETER Description
+        Specify the Description of your contribution
+
     .PARAMETER ReferenceUrl
+        Specifies the Url of the activity
+
     .PARAMETER AnnualQuantity
+        Specifies the Annual quantity.
+        Default is 1
+
     .PARAMETER SecondAnnualQuantity
+        Specifies the Second Annual quantity.
+        Default is 0
+
     .PARAMETER AnnualReach
+        Specifies the Annual Reach
+        Default is 0
+
     .PARAMETER Visibility
+        Specifies the audience that will be able to see your activity
+        Values: 'EveryOne','Microsoft','MVP Community','Microsoft Only'
+        Default = 'Microsoft'
 
     .EXAMPLE
         Set-MVPContribution -ContributionID 691729 -Description 'wowwwwwww!!!' 
@@ -25,7 +53,7 @@
 #>
 [CmdletBinding()]
 Param(
-    [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+    [Parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
     [int32]$ContributionID,
 
     [Parameter()]

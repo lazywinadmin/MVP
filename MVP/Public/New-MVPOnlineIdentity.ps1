@@ -7,11 +7,20 @@ Function New-MVPOnlineIdentity {
         Creates a new online identity
 
     .PARAMETER ID
-    .PARAMETER SocialNetwork
-    .PARAMETER URL
-    .PARAMETER AllowMicrosoftToQueryMyId
-    .PARAMETER Visibility
+        Specify the Id of the online identity in a int32 format
 
+    .PARAMETER SocialNetwork
+        Specify the Social Network
+
+    .PARAMETER URL
+        Specify the URL
+
+    .PARAMETER AllowMicrosoftToQueryMyId
+        Specify if you want to allo Microsoft to query the ID
+
+    .PARAMETER Visibility
+        Specify the Visbility (see Get-MVPContributionVisibility)
+        
     .EXAMPLE
         New-MVPOnlineIdentity -SocialNetwork Code -Url 'test'  -Verbose
     
