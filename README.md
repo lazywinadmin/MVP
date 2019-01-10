@@ -1349,8 +1349,9 @@ If you need to clear this information, you'll need to clear the Internet Explore
 
 ## Notes
 Thanks go to:
-* __Emin Atac__: Emin made a huge contribution to this module, especially when I was struggling with the Authentication part, Merci!!
-
+* @p0w3rsh3ll
+* @Windos
+* @JPRuskins
 <a name="Help"/>
 
 ## Help !!
