@@ -33,7 +33,7 @@ This can be use to manage your contributions (Get, Add, Update and Remove), retr
 
 <a name="requirements"/>
 
-### Requirements
+## Requirements
 
 In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
 
