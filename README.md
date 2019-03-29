@@ -1,16 +1,14 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/u2fijh6p0ofe0hpo?svg=true)](https://ci.appveyor.com/project/lazywinadmin/mvp)
 
-# MVP
+# MVP PowerShell Module
+
 PowerShell Module to interact with the Microsoft MVP API.
+This can be use to manage your contributions (Get, Add, Update and Remove), retrieve contributions type and technologies, retrieve a mvp profile and maintain your online identities.
 
-In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
+**Youtube video**: [Using the PowerShell MVP Module](https://www.youtube.com/watch?v=UeRvlMzfsT8)
 
-* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started) 
-* [Video Tutorial](https://aka.ms/mvp-api-video)
-* [Microsoft MVP API](https://mvpapi.portal.azure-api.net/)
-
-
-## Table of Contents  
+## Table of Contents
+* [Requirements](#requirements)
 * [Usage](#Usage)
   * [Install the module](#Install)
   * [Configure connection](#Configure)
@@ -33,13 +31,17 @@ In order to use this module you need to get a Subscription key from [https://mvp
 * [Notes/Thanks](#Notes)
 * [More Information](#MoreInformation)
 
+<a name="requirements"/>
+### Requirements
 
+In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
+
+* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started) 
+* [Microsoft Video Tutorial](https://aka.ms/mvp-api-video)
+* [Microsoft MVP API](https://mvpapi.portal.azure-api.net/)
 <a name="Usage"/>
 
 ## Usage
-
-[![Alt text](https://i.ytimg.com/vi_webp/UeRvlMzfsT8/maxresdefault.webp)](https://www.youtube.com/embed/UeRvlMzfsT8)
-
 
 <a name="Install"/>
 
@@ -1345,8 +1347,10 @@ If you need to clear this information, you'll need to clear the Internet Explore
 <a name="MoreInformation"/>
 
 ## More Information
-* [mvpapi.portal.azure-api.net](https://mvpapi.portal.azure-api.net/)
-* [mvp-api-video](https://aka.ms/mvp-api-video)
+* [Microsoft - mvpapi.portal.azure-api.net](https://mvpapi.portal.azure-api.net/)
+* [Microsoft - mvp-api-video](https://aka.ms/mvp-api-video)
+* [MVP.PSGitHub module](https://github.com/markekraus/MVP.PSGitHub/) by @markekraus - PowerShell Utility Functions for Adding PowerShell GitHub Contributions to the Microsoft MVP API
+* [Update Youtube video contributions script](https://github.com/julioarruda/UpdateMVPContributions) by @julioarruda - PowerShell script to update the View count in existing Microsoft MVP Contributions
 
 <a name="Notes"/>
 
