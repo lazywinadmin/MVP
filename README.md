@@ -38,6 +38,8 @@ In order to use this module you need to get a Subscription key from [https://mvp
 
 ## Usage
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UeRvlMzfsT8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 <a name="Install"/>
 
 ### Install the Module
