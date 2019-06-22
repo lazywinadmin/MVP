@@ -1,39 +1,104 @@
-#---------------------------------# 
-# Header                          # 
-#---------------------------------# 
-Write-Output -InputObject 'Running AppVeyor build script'
-Write-Output -InputObject "ModuleName    : $env:ModuleName"
-Write-Output -InputObject "Build version : $env:APPVEYOR_BUILD_VERSION"
-Write-Output -InputObject "Author        : $env:APPVEYOR_REPO_COMMIT_AUTHOR"
-Write-Output -InputObject "Branch        : $env:APPVEYOR_REPO_BRANCH"
-write-output -InputObject "Build Folder  : $env:APPVEYOR_BUILD_FOLDER"
-write-output -InputObject "Project Name  : $env:APPVEYOR_PROJECT_NAME"
+<#
+.SYNOPSIS
+Used to start the build of a PowerShell Module
+.DESCRIPTION
+This script will install dependencies using PSDepend module and start the build tasks using InvokeBuild module
+.NOTES
+Change History
+-1.0 | 2019/06/17 | Francois-Xavier Cat
+    Initial version
+#>
+[CmdletBinding()]
+Param(
+    #[string[]]$tasks,
+    [string]$GalleryRepository,
+    [pscredential]$GalleryCredential,
+    [string]$GalleryProxy,
+    [string[]]$tasks, # @('build','test','deploy')
+    [switch]$InstallDependencies
+    )
+try{
+    ################
+    # EDIT THIS PART
+    $moduleName = "MVP" # get from source control or module ?
+    $author = 'Francois-Xavier Cat' # fetch from source or module
+    $description = 'MVP is a PowerShell module to interact with the Microsoft MVP website' # fetch from module ?
+    $companyName = 'lazywinadmin.com' # fetch from module ?
+    $projectUri = "https://github.com/lazywinadmin/$moduleName" # get from module of from source control, env var
+    $licenseUri = "https://github.com/lazywinadmin/$moduleName/blob/master/LICENSE.md"
+    $tags = @('MVP', 'MicrosoftMVP')
+    ################
 
+    #$rootpath = Split-Path -path $PSScriptRoot -parent
+    $rootpath = $PSScriptRoot
+    $buildOutputPath = "$rootpath\buildoutput"
+    $buildPath = "$rootpath\build"
+    $srcPath = "$rootpath\src"
+    $testPath = "$rootpath\tests"
+    $modulePath = "$buildoutputPath\$moduleName"
+    $dependenciesPath = "$rootpath\dependencies" # folder to store modules
+    $testResult = "Test-Results.xml"
 
-Get-ChildItem env:/appv*
+    $env:moduleName = $moduleName
+    $env:modulePath = $modulePath
 
-#---------------------------------# 
-# Main                            # 
-#---------------------------------# 
-Install-Module -Name Pester
-Import-Module -Name Pester
+    $requirementsFilePath = "$buildPath\requirements.psd1" # contains dependencies
+    $buildTasksFilePath = "$buildPath\tasks.build.ps1" # contains tasks to execute
 
-write-output "BUILD_FOLDER: $($env:APPVEYOR_BUILD_FOLDER)"
-write-output "PROJECT_NAME: $($env:APPVEYOR_PROJECT_NAME)"
+    if($InstallDependencies)
+    {
+        # Setup PowerShell Gallery as PSrepository  & Install PSDepend module
+        if (-not(Get-PackageProvider -Name NuGet -ForceBootstrap)) {
+            $providerBootstrapParams = @{
+                Name = 'nuget'
+                force = $true
+                ForceBootstrap = $true
+            }
 
-$ModuleClonePath = Join-Path -Path $env:APPVEYOR_BUILD_FOLDER -ChildPath $env:APPVEYOR_PROJECT_NAME
-Write-Output "MODULE CLONE PATH: $($ModuleClonePath)"
+            if($PSBoundParameters['verbose']) {$providerBootstrapParams.add('verbose',$verbose)}
+            if($GalleryProxy) { $providerBootstrapParams.Add('Proxy',$GalleryProxy) }
+            $null = Install-PackageProvider @providerBootstrapParams
+            Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+        }
 
-$moduleName = "$($env:APPVEYOR_PROJECT_NAME)"
-Get-Module $moduleName
+        if (-not(Get-Module -Listavailable -Name PSDepend)) {
+            Write-verbose "BootStrapping PSDepend"
+            "Parameter $buildOutputPath"| Write-verbose
+            $InstallPSDependParams = @{
+                Name = 'PSDepend'
+                AllowClobber = $true
+                Confirm = $false
+                Force = $true
+                Scope = 'CurrentUser'
+            }
+            if($PSBoundParameters['verbose']) { $InstallPSDependParams.add('verbose',$verbose)}
+            if ($GalleryRepository) { $InstallPSDependParams.Add('Repository',$GalleryRepository) }
+            if ($GalleryProxy)      { $InstallPSDependParams.Add('Proxy',$GalleryProxy) }
+            if ($GalleryCredential) { $InstallPSDependParams.Add('ProxyCredential',$GalleryCredential) }
+            Install-Module @InstallPSDependParams
+        }
 
-#Pester Tests
-write-verbose "invoking pester"
-$Results = Invoke-Pester -Path "$($env:APPVEYOR_BUILD_FOLDER)\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
+        # Install module dependencies with PSDepend
+        $PSDependParams = @{
+            Force = $true
+            Path = $requirementsFilePath
+        }
+        if($PSBoundParameters['verbose']) { $PSDependParams.add('verbose',$verbose)}
+        Invoke-PSDepend @PSDependParams -Target $dependenciesPath
+        Write-Verbose -Message "Project Bootstrapped"
+    }
 
-#Uploading Testresults to Appveyor
-(New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path -Path .\TestsResults.xml))
+    # Start build using InvokeBuild module
+    Write-Verbose -Message "Start Build"
+    Invoke-Build -Result 'Result' -File $buildTasksFilePath -Task $tasks
 
-if ($Results.FailedCount -gt 0 -or $Results.PassedCount -eq 0) { 
-    throw "$($Results.FailedCount) tests failed - $($Results.PassedCount) successfully passed"
+    # Return error to CI
+    if ($Result.Error)
+    {
+        $Error[-1].ScriptStackTrace | Out-String
+        exit 1
+    }
+    exit 0
+}catch{
+    throw $_
 }
