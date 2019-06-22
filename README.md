@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/u2fijh6p0ofe0hpo?svg=true)](https://ci.appveyor.com/project/lazywinadmin/mvp)
+[![Build Status](https://dev.azure.com/lazywinadmin/MVP/_apis/build/status/lazywinadmin.MVP?branchName=master)](https://dev.azure.com/lazywinadmin/MVP/_build/latest?definitionId=18&branchName=master)
 
 # MVP PowerShell Module
 
@@ -37,7 +37,7 @@ This can be use to manage your contributions (Get, Add, Update and Remove), retr
 
 In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
 
-* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started) 
+* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started)
 * [Microsoft Video Tutorial](https://aka.ms/mvp-api-video)
 * [Microsoft MVP API](https://mvpapi.portal.azure-api.net/)
 <a name="Usage"/>
@@ -92,22 +92,22 @@ A user interface will show to authenticate against the Microsoft API "mvpapi.por
 Get-Command -module MVP
 ```
 ```
-CommandType     Name                                               Version    Source                                                                 
------------     ----                                               -------    ------                                                                 
-Function        Get-MVPContribution                                0.0.2.0    MVP                                                                    
-Function        Get-MVPContributionArea                            0.0.2.0    MVP                                                                    
-Function        Get-MVPContributionType                            0.0.2.0    MVP                                                                    
-Function        Get-MVPContributionVisibility                      0.0.2.0    MVP                                                                    
-Function        Get-MVPOnlineIdentity                              0.0.2.0    MVP                                                                    
-Function        Get-MVPProfile                                     0.0.2.0    MVP                                                                    
-Function        Get-MVPProfileImage                                0.0.2.0    MVP                                                                    
-Function        New-MVPContribution                                0.0.2.0    MVP                                                                    
-Function        New-MVPOnlineIdentity                              0.0.2.0    MVP                                                                    
-Function        Remove-MVPConfiguration                            0.0.2.0    MVP                                                                    
-Function        Remove-MVPContribution                             0.0.2.0    MVP                                                                    
-Function        Remove-MVPOnlineIdentity                           0.0.2.0    MVP                                                                    
-Function        Set-MVPConfiguration                               0.0.2.0    MVP                                                                    
-Function        Set-MVPContribution                                0.0.2.0    MVP                                                                    
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Function        Get-MVPContribution                                0.0.2.0    MVP
+Function        Get-MVPContributionArea                            0.0.2.0    MVP
+Function        Get-MVPContributionType                            0.0.2.0    MVP
+Function        Get-MVPContributionVisibility                      0.0.2.0    MVP
+Function        Get-MVPOnlineIdentity                              0.0.2.0    MVP
+Function        Get-MVPProfile                                     0.0.2.0    MVP
+Function        Get-MVPProfileImage                                0.0.2.0    MVP
+Function        New-MVPContribution                                0.0.2.0    MVP
+Function        New-MVPOnlineIdentity                              0.0.2.0    MVP
+Function        Remove-MVPConfiguration                            0.0.2.0    MVP
+Function        Remove-MVPContribution                             0.0.2.0    MVP
+Function        Remove-MVPOnlineIdentity                           0.0.2.0    MVP
+Function        Set-MVPConfiguration                               0.0.2.0    MVP
+Function        Set-MVPContribution                                0.0.2.0    MVP
 Function        Set-MVPOnlineIdentity                              0.0.2.0    MVP
 Function        Show-MVPProfile                                    0.0.2.0    MVP
 ```
@@ -127,48 +127,48 @@ Get-MVPProfile
 Get-MVPProfile -ID 5000475
 ```
 ```
-Metadata             : @{PageTitle=Francois-Xavier Cat is a Microsoft MVP in PowerShell who has been in the IT field since 2007. He is currently an 
+Metadata             : @{PageTitle=Francois-Xavier Cat is a Microsoft MVP in PowerShell who has been in the IT field since 2007. He is currently an
                        Automation Specialist in a large Financial company.; TemplateName=; Keywords=; Description=}
 MvpId                : 5000475
 YearsAsMvp           : 4
 FirstAwardYear       : 2014
 AwardCategoryDisplay : Cloud and Datacenter Management
-TechnicalExpertise   : 
+TechnicalExpertise   :
 InTheSpotlight       : False
-Headline             : Francois-Xavier Cat is a Microsoft MVP in PowerShell who has been in the IT field since 2007. He is currently an Automation 
+Headline             : Francois-Xavier Cat is a Microsoft MVP in PowerShell who has been in the IT field since 2007. He is currently an Automation
                        Specialist in a large Financial company.
 Biography            : Francois-Xavier Cat is from France but has been living in Montreal, Quebec, Canada since 2004.
-                       
-                       In 2014, He was concurrently awarded his first MVP PowerShell by Microsoft and PowerShell Hero 2014 award by PowerShell.org. 
+
+                       In 2014, He was concurrently awarded his first MVP PowerShell by Microsoft and PowerShell Hero 2014 award by PowerShell.org.
                        In 2015, he was also nominated Sapien Technologies MVP.
-                       
+
                        You can follow his blog at http://lazywinadmin.com
 DisplayName          : Francois-Xavier Cat
 FullName             : Francois-Xavier Cat
-PrimaryEmailAddress  : 
+PrimaryEmailAddress  :
 ShippingCountry      : Canada
 ShippingStateCity    : Montreal, QC
 Languages            : French, English
-OnlineIdentities     : {@{PrivateSiteId=39435; SocialNetwork=; Url=https://www.facebook.com/fxavierc; OnlineIdentityVisibility=; 
-                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=False; 
-                       PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False}, 
-                       @{PrivateSiteId=74012; SocialNetwork=; Url=https://www.facebook.com/lazywinadmin; OnlineIdentityVisibility=; 
-                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=True; 
-                       PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False}, 
-                       @{PrivateSiteId=56689; SocialNetwork=; Url=http://klout.com/LazyWinAdm; OnlineIdentityVisibility=; 
-                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=False; 
-                       PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False}, 
-                       @{PrivateSiteId=39415; SocialNetwork=; Url=http://ca.linkedin.com/in/fxcat; OnlineIdentityVisibility=; 
-                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=True; 
+OnlineIdentities     : {@{PrivateSiteId=39435; SocialNetwork=; Url=https://www.facebook.com/fxavierc; OnlineIdentityVisibility=;
+                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=False;
+                       PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False},
+                       @{PrivateSiteId=74012; SocialNetwork=; Url=https://www.facebook.com/lazywinadmin; OnlineIdentityVisibility=;
+                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=True;
+                       PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False},
+                       @{PrivateSiteId=56689; SocialNetwork=; Url=http://klout.com/LazyWinAdm; OnlineIdentityVisibility=;
+                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=False;
+                       PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False},
+                       @{PrivateSiteId=39415; SocialNetwork=; Url=http://ca.linkedin.com/in/fxcat; OnlineIdentityVisibility=;
+                       ContributionCollected=False; DisplayName=; UserId=; MicrosoftAccount=; PrivacyConsentStatus=True;
                        PrivacyConsentCheckStatus=False; PrivacyConsentCheckDate=; PrivacyConsentUnCheckDate=; Submitted=False}...}
 Certifications       : {@{PrivateSiteId=9874; Id=a2136352-509a-e411-bbc8-6c3be5a82b68; Title=VMware VCP510-DCV,; CertificationVisibility=}}
-Activities           : 
-CommunityAwards      : {@{PrivateSiteId=12499; Title=SAPIEN MVP; Description="SAPIEN Most Valuable Professional (MVP) award. It’s our way to 
+Activities           :
+CommunityAwards      : {@{PrivateSiteId=12499; Title=SAPIEN MVP; Description="SAPIEN Most Valuable Professional (MVP) award. It’s our way to
                        recognize and show
                        our appreciation for community members who promote our products and contribute
-                       to their improvement and success."; DateEarned=2015-01-16T00:00:00; 
-                       ReferenceUrl=http://www.sapien.com/company/mvp/13/Francois-Xavier_Cat; AwardRecognitionVisibility=}, @{PrivateSiteId=6179; 
-                       Title=PowerShell Hero; Description=; DateEarned=2014-01-08T00:00:00; 
+                       to their improvement and success."; DateEarned=2015-01-16T00:00:00;
+                       ReferenceUrl=http://www.sapien.com/company/mvp/13/Francois-Xavier_Cat; AwardRecognitionVisibility=}, @{PrivateSiteId=6179;
+                       Title=PowerShell Hero; Description=; DateEarned=2014-01-08T00:00:00;
                        ReferenceUrl=http://powershell.org/wp/2014/01/08/announcing-our-2014-powershell-heroes/; AwardRecognitionVisibility=}}
 NewsHighlights       : {}
 UpcomingEvent        : {}
@@ -219,8 +219,8 @@ Get-MVPContributionArea
 ```
 
 ```
-AwardName                       ContributionArea                                                                                                     
----------                       ----------------                                                                                                     
+AwardName                       ContributionArea
+---------                       ----------------
 Cloud and Datacenter Management {@{Id=b003f4ef-066b-e511-810b-fc15b428ced0; Name=Azure Stack; AwardName=Cloud and Datacenter Management; AwardCate...
 ```
 
@@ -1342,7 +1342,7 @@ If you need to clear this information, you'll need to clear the Internet Explore
 - [x] Set-MVPOnlineIdentity (PUT)
 - [x] Remove-MVPConfiguration
 - [ ] Backup-MVPContribution (Using Get-MVPContribution under the hood and save to CSV ? JSON ?)
-- [ ] Import-MVPContribution (Using New-MVPContribution, see [New-MVPContribution (multiple)](#NewMvpContributionMultiple)) 
+- [ ] Import-MVPContribution (Using New-MVPContribution, see [New-MVPContribution (multiple)](#NewMvpContributionMultiple))
 - [ ] Test-MVPContribution (Checks if entry exists, wrapper around Get-MVPContribution based on Date, Title, Type, Techno, Link)
 
 <a name="MoreInformation"/>
