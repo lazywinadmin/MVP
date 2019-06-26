@@ -116,7 +116,7 @@ process{
         Test individual functions
     #>
 
-    Set-MVPConfiguration -SubscriptionKey $env:mvpapikey
+    <#Set-MVPConfiguration -SubscriptionKey $env:mvpapikey
 
     Describe 'Get-MVPProfile' {
         Context 'no parameters' {
@@ -130,4 +130,5 @@ process{
             }
         }
     }
+    #>
 }#process
