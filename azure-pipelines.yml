@@ -15,7 +15,7 @@ steps:
   displayName: 'PowerShell - Build > test > deploy'
   env:
     psgallerykey: $(psgallerykey)
-    mvpapikey: $(mvpapikey)
+    # mvpapikey: $(mvpapikey)
 - task: PublishTestResults@2
   displayName: 'Publish Test Results **/TEST-*.xml'
   inputs:
