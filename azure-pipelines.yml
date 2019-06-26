@@ -10,24 +10,27 @@ resources:
 queue:
   name: Hosted VS2017
 steps:
+
 - powershell: |
     .\build.ps1 -InstallDependencies:$true -verbose -tasks 'nothing'
   displayName: 'PowerShell - Install Dependencies'
+
 - powershell: |
     .\build.ps1 -verbose -tasks 'build'
   displayName: 'PowerShell - Build'
-steps:
+
 - powershell: |
     .\build.ps1 -verbose -tasks 'test'
   displayName: 'PowerShell - Test'
   env:
     mvpapikey: $(mvpapikey)
-steps:
+
 - powershell: |
     .\build.ps1 -verbose -tasks 'deploy'
   displayName: 'PowerShell - Deploy'
   env:
     psgallerykey: $(psgallerykey)
+
 - task: PublishTestResults@2
   displayName: 'Publish Test Results **/TEST-*.xml'
   inputs:
