@@ -110,4 +110,24 @@ process{
             }
         }
     }
-}
+
+
+    <#
+        Test individual functions
+    #>
+
+    Set-MVPConfiguration -SubscriptionKey $env:mvpapikey
+
+    Describe 'Get-MVPProfile' {
+        Context 'no parameters' {
+            $returnedData = Get-MVPProfile
+
+            It 'gets result' {
+                $returnedData|Should not BeNullOrEmpty
+            }
+            It 'gets a single object' {
+                $returnedData.getType().fullname | Should Be 'System.Management.Automation.PSCustomObject'
+            }
+        }
+    }
+}#process
