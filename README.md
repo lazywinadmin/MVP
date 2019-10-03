@@ -78,11 +78,11 @@ Set-MVPConfiguration -SubscriptionKey $SubscriptionKey
 ```
 A user interface will show to authenticate against the Microsoft API "mvpapi.portal.azure-api.net"
 
-![Alt text](Media/Set-MVPConfiguration01.jpg?raw=true "Set-MVPConfiguration")
+![Alt text](media/Set-MVPConfiguration01.jpg?raw=true "Set-MVPConfiguration")
 
-![Alt text](Media/Set-MVPConfiguration02.jpg?raw=true "Set-MVPConfiguration")
+![Alt text](media/Set-MVPConfiguration02.jpg?raw=true "Set-MVPConfiguration")
 
-![Alt text](Media/Set-MVPConfiguration03.jpg?raw=true "Set-MVPConfiguration")
+![Alt text](media/Set-MVPConfiguration03.jpg?raw=true "Set-MVPConfiguration")
 
 <a name="Functions"/>
 
@@ -1075,13 +1075,13 @@ Description            : Description sample
 
 You can double check on the MVP website, the entry was created
 
-![Alt text](Media/New-MVPContribution02.jpg?raw=true "New-MVPContribution")
+![Alt text](media/New-MVPContribution02.jpg?raw=true "New-MVPContribution")
 
 
 If you are not sure which ContributionTechnology or ContributionType, the function has dynamicparameters that can help you find the right information, example:
 
-![Alt text](Media/New-MVPContribution01.jpg?raw=true "New-MVPContribution")
-![Alt text](Media/New-MVPContribution03.jpg?raw=true "New-MVPContribution")
+![Alt text](media/New-MVPContribution01.jpg?raw=true "New-MVPContribution")
+![Alt text](media/New-MVPContribution03.jpg?raw=true "New-MVPContribution")
 
 
 
@@ -1249,7 +1249,7 @@ Description            : Some content
 
 We can see all the entries were created on the portal
 
-![Alt text](Media/New-MVPContribution04.jpg?raw=true "New-MVPContribution")
+![Alt text](media/New-MVPContribution04.jpg?raw=true "New-MVPContribution")
 
 
 <a name="RemoveMvpContribution"/>
