@@ -16,7 +16,7 @@ Function New-MVPConsiderationAnswer {
 
     .EXAMPLE
     $Answer = 'This is the answer to an example question.'
-    New-MVPContribution -AwardQuestionId 'f8dd332f-d1f9-4185-b123-16ae0b0be34f' -Answer $Answer
+    New-MVPConsiderationAnswer -AwardQuestionId 'f8dd332f-d1f9-4185-b123-16ae0b0be34f' -Answer $Answer
 
     This will create a new answer to an MVP award consideration question using the current session opened by Set-MVPConfiguration
 
