@@ -109,6 +109,7 @@ task -name analyze {
         Settings            = "$buildPath\ScriptAnalyzerSettings.psd1"
         Severity            = 'Warning','Error'
         Recurse             = $true
+        CustomRulePath      = (Get-Module -Name ScriptAnalyzerRulesLWA -ListAvailable).Path
     }
 
     "Analyzing $ManifestPath..."
