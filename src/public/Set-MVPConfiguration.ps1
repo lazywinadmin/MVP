@@ -19,7 +19,7 @@ Set-MVPConfiguration -SubscriptionKey $myKey
 .NOTES
     https://github.com/lazywinadmin/MVP
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 PARAM (
     [Parameter()]
     [System.String]$ClientID='0000000048193351',
@@ -36,11 +36,13 @@ Process {
         Write-Verbose -Message "[$Scriptname] Successfully call the Get-MVPOAuthAutorizationCode function"
 
         if ($MVPOauth2) {
-            Write-Verbose -Message "[$Scriptname] OAuth Autorization code retrieved"
-            Write-Verbose -Message "[$Scriptname] Set Variables 'MVPPrimaryKey' and 'MVPAuthorizationCode'"
-            $global:MVPPrimaryKey = $SubscriptionKey
-            $global:MVPAuthorizationCode = ('{0} {1}' -f $MVPOauth2.token_type,$MVPOauth2.access_token)
-            Write-Verbose -Message "[$Scriptname] Successfully set the global variables MVPPrimaryKey and MVPAuthorizationCode"
+            if ($pscmdlet.ShouldProcess($ClientID, "Updating Configuration")){
+                Write-Verbose -Message "[$Scriptname] OAuth Autorization code retrieved"
+                Write-Verbose -Message "[$Scriptname] Set Variables 'MVPPrimaryKey' and 'MVPAuthorizationCode'"
+                $global:MVPPrimaryKey = $SubscriptionKey
+                $global:MVPAuthorizationCode = ('{0} {1}' -f $MVPOauth2.token_type,$MVPOauth2.access_token)
+                Write-Verbose -Message "[$Scriptname] Successfully set the global variables MVPPrimaryKey and MVPAuthorizationCode"
+            }
         } else {
             Write-Error -Message "[$Scriptname] Failed to define an MVPAuthorizationCode variable"
         }

@@ -11,7 +11,7 @@ Function Remove-MVPOnlineIdentity {
 
     .EXAMPLE
 #>
-[CmdletBinding(SupportsShouldProcess,ConfirmImpact='High')]
+[CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
 Param(
     [Parameter(Mandatory)]
     [Alias('PrivateSiteId')]

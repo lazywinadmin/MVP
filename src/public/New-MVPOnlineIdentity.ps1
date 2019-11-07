@@ -20,26 +20,26 @@ Function New-MVPOnlineIdentity {
 
     .PARAMETER Visibility
         Specify the Visbility (see Get-MVPContributionVisibility)
-        
+
     .EXAMPLE
         New-MVPOnlineIdentity -SocialNetwork Code -Url 'test'  -Verbose
-    
+
     .EXAMPLE
         New-MVPOnlineIdentity -SocialNetwork Code -Url 'c:\\windows\\test' -AllowMicrosoftToQueryMyId -Visibility Microsoft -Verbose
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 Param(
-    
+
     [Parameter()]
     [ValidateSet('Blog','Code','Codeplex','Exchange DL Subscription Email','Facebook','GitHub','Google+','Instagram',
                  'Klout','LinkedIn','Meetup','Microsoft ASP.NET Forum','Microsoft IIS Forum','MS Community (MS Answers)',
                  'MSDN/Technet','Naver ID','Other','StackOverflow','Twitter','Website','Windows/Windows Phone Dev Center ID',
                  'Xbox Live gamertag','Xing','Yammer','YouTube')]
     [String]$SocialNetwork = 'Twitter',
-        
+
     [Parameter()]
     [String]$URL='https://mvpapi.azure-api.net',
-    
+
     [Parameter()]
     [Switch]$AllowMicrosoftToQueryMyId,
 
@@ -54,7 +54,7 @@ Process {
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
-        
+
         $Splat = @{
             Uri = 'https://mvpapi.azure-api.net/mvp/api/onlineidentities'
             Headers = @{
@@ -70,7 +70,7 @@ Process {
         # Get the Visibility
         $VisibilityObject = Get-MVPContributionVisibility | Where {$_.Description -eq $Visibility }
 
-        if ($AllowMicrosoftToQueryMyId) { 
+        if ($AllowMicrosoftToQueryMyId) {
             $PrivacyConsentStatus  = 'true'
         } else {
             $PrivacyConsentStatus = 'false'
@@ -91,7 +91,7 @@ Process {
             'Klout'    { $SNid = 'c9fc56aa-4255-e211-811c-00155d2ee30b' ; break }
             'LinkedIn' { $SNid = 'cbfc56aa-4255-e211-811c-00155d2ee30b' ; break }
             'Meetup'   { $SNid = '2b93c914-089f-e511-8114-c4346bac0abc' ; break }
-            'Microsoft ASP.NET Forum' { 
+            'Microsoft ASP.NET Forum' {
                          $SNid = '614bd123-4278-e311-9401-00155da64d68' ; break }
             'Microsoft IIS Forum' {
                          $SNid = 'ac372b19-4278-e311-9401-00155da64d68' ; break }
@@ -105,9 +105,9 @@ Process {
                          $SNid = '9aeda924-8081-e311-9401-00155da64d68' ; break }
             'Twitter'  { $SNid = 'd5fc56aa-4255-e211-811c-00155d2ee30b' ; break }
             'Website'  { $SNid = '222a47c1-33ca-e211-9b1f-00155da65f6a' ; break }
-            'Windows/Windows Phone Dev Center ID' { 
+            'Windows/Windows Phone Dev Center ID' {
                          $SNid = 'e673a268-8081-e311-9401-00155da64d68' ; break }
-            'Xbox Live gamertag' { 
+            'Xbox Live gamertag' {
                          $SNid = 'c7fc56aa-4255-e211-811c-00155d2ee30b' ; break }
             'Xing'     { $SNid = 'd7fc56aa-4255-e211-811c-00155d2ee30b' ; break }
             'Yammer'   { $SNid = 'e473a268-8081-e311-9401-00155da64d68' ; break }
@@ -143,12 +143,14 @@ Process {
 }
 "@
         try {
-            Write-Verbose "About to create a new indentity with Body $($Body)"
-            Invoke-RestMethod @Splat -Body $Body
+            if ($pscmdlet.ShouldProcess($Body, "Create a new online identity")){
+                Write-Verbose "About to create a new identity with Body $($Body)"
+                Invoke-RestMethod @Splat -Body $Body
+            }
         } catch {
             Write-Warning -Message "Failed to invoke the PostOnlineIdentity API because $($_.Exception.Message)"
         }
-    }     
+    }
 }
 End {}
 }

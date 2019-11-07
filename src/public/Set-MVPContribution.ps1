@@ -46,12 +46,12 @@
         Default = 'Microsoft'
 
     .EXAMPLE
-        Set-MVPContribution -ContributionID 691729 -Description 'wowwwwwww!!!' 
+        Set-MVPContribution -ContributionID 691729 -Description 'wowwwwwww!!!'
 
     .EXAMPLE
         Get-MVPContribution -ContributionId 700210 | Set-MVPContribution -Description "wwooowww!!" -Verbose
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 Param(
     [Parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
     [int32]$ContributionID,
@@ -64,25 +64,25 @@ Param(
 
     [Parameter()]
     [String]$StartDate = '2017/02/01',
-    
+
     [Parameter()]
     [String]$Title='Test from mvpapi.azure-api.net',
 
     [Parameter()]
     [String]$Description='Description sample',
-    
+
     [Parameter()]
     [String]$ReferenceUrl='https://github.com/lazywinadmin/MVP',
-    
+
     [Parameter()]
     [String]$AnnualQuantity='0',
-    
+
     [Parameter()]
     [String]$SecondAnnualQuantity='0',
 
-    [Parameter()]    
+    [Parameter()]
     [String]$AnnualReach = '0',
-    
+
     [Parameter()]
     [ValidateSet('EveryOne','Microsoft','MVP Community','Microsoft Only')]
     [String]$Visibility = 'Microsoft'
@@ -93,7 +93,7 @@ Process {
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
 
 	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
-    
+
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
@@ -175,8 +175,10 @@ Process {
 "@
             if ($type -and $Technology) {
                 try {
-                    Write-Verbose "About to update contribution $($ContributionID) with Body $($Body)"
-                    Invoke-RestMethod @Splat -Body $Body
+                    if ($pscmdlet.ShouldProcess($Body, "Updating Contribution")){
+                        Write-Verbose "About to update contribution $($ContributionID) with Body $($Body)"
+                        Invoke-RestMethod @Splat -Body $Body
+                    }
                 } catch {
                     Write-Warning -Message "Failed to invoke the PutContribution API because $($_.Exception.Message)"
                 }

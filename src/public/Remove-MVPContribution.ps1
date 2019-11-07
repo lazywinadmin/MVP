@@ -8,14 +8,14 @@
 
     .PARAMETER ID
         It's the id of a contribution
-    
+
     .EXAMPLE
         Remove-MVPContribution -ID 123456
 
     .NOTES
         https://github.com/lazywinadmin/MVP
 #>
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact = 'High')]
     Param(
         [Parameter(Mandatory)]
         [String]$ID
@@ -40,11 +40,10 @@
                 ErrorAction = 'Stop'
             }
 
-            if ($pscmdlet.ShouldProcess($ID, 'Remove item')) {
-
+            if ($pscmdlet.ShouldProcess($ID, 'Remove contribution')) {
                 try {
                     Invoke-RestMethod @Splat
-                    Write-Verbose -Message "Contribution $($ID) deleted"
+                    Write-Verbose -Message "Contribution '$($ID)' deleted"
                 }
                 catch {
                     Write-Warning -Message "Failed to invoke the DeleteContribution API because $($_.Exception.Message)"

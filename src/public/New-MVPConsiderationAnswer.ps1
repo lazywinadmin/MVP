@@ -23,7 +23,7 @@ Function New-MVPConsiderationAnswer {
     .NOTES
         https://github.com/lazywinadmin/MVP
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 Param(
     [Parameter(Mandatory,
                ValueFromPipelineByPropertyName=$true)]
@@ -57,8 +57,10 @@ Process {
 }
 "@
         try {
-            Write-Verbose -Message "About to create a new answer with Body $($Body)"
-            Invoke-RestMethod @Splat -Body $Body
+            if ($pscmdlet.ShouldProcess($Body, "Create a new answer")){
+                Write-Verbose -Message "About to create a new answer with Body $($Body)"
+                Invoke-RestMethod @Splat -Body $Body
+            }
         } catch {
             Write-Warning -Message "Failed to invoke the SaveAnswers API because $($_.Exception.Message)"
         }

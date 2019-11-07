@@ -30,7 +30,7 @@ Function Set-MVPOnlineIdentity {
         Set-MVPOnlineIdentity -Verbose -URL 'https://facebook.com/myprofile'
 
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 Param(
     [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
     [Alias('PrivateSiteId')]
@@ -43,11 +43,11 @@ Param(
                  'Xbox Live gamertag','Xing','Yammer','YouTube')]
     [String]$SocialNetwork = 'Twitter',
 
-    [Parameter()]    
+    [Parameter()]
     [String]$URL = 'https://mvpapi.azure-api.net',
 
     [Switch]$AllowMicrosoftToQueryMyId,
-    
+
     [Parameter()]
     [ValidateSet('EveryOne','Microsoft','MVP Community','Microsoft Only')]
     [String]$Visibility = 'Microsoft'
@@ -58,7 +58,7 @@ Process {
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
 
 	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
-    
+
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
@@ -88,12 +88,12 @@ Process {
             }
             if (-not$PSBoundParameters['SocialNetwork'])  { $SocialNetwork=$CurrentIdentityObject.SocialNetwork.Name }
             if (-not$PSBoundParameters['URL'])            { $URL=$CurrentIdentityObject.URL }
-            if ($AllowMicrosoftToQueryMyId) { 
+            if ($AllowMicrosoftToQueryMyId) {
                 $PrivacyConsentStatus  = 'true'
             } else {
                 $PrivacyConsentStatus = 'false'
             }
-            
+
             switch ($SocialNetwork) {
                 # missing 'Microsoft Connect' requires an MS account
                 # missing 'Microsoft Office 365 forum' requires a displayname
@@ -110,7 +110,7 @@ Process {
                 'Klout'    { $SNid = 'c9fc56aa-4255-e211-811c-00155d2ee30b' ; break }
                 'LinkedIn' { $SNid = 'cbfc56aa-4255-e211-811c-00155d2ee30b' ; break }
                 'Meetup'   { $SNid = '2b93c914-089f-e511-8114-c4346bac0abc' ; break }
-                'Microsoft ASP.NET Forum' { 
+                'Microsoft ASP.NET Forum' {
                              $SNid = '614bd123-4278-e311-9401-00155da64d68' ; break }
                 'Microsoft IIS Forum' {
                              $SNid = 'ac372b19-4278-e311-9401-00155da64d68' ; break }
@@ -124,9 +124,9 @@ Process {
                              $SNid = '9aeda924-8081-e311-9401-00155da64d68' ; break }
                 'Twitter'  { $SNid = 'd5fc56aa-4255-e211-811c-00155d2ee30b' ; break }
                 'Website'  { $SNid = '222a47c1-33ca-e211-9b1f-00155da65f6a' ; break }
-                'Windows/Windows Phone Dev Center ID' { 
+                'Windows/Windows Phone Dev Center ID' {
                              $SNid = 'e673a268-8081-e311-9401-00155da64d68' ; break }
-                'Xbox Live gamertag' { 
+                'Xbox Live gamertag' {
                              $SNid = 'c7fc56aa-4255-e211-811c-00155d2ee30b' ; break }
                 'Xing'     { $SNid = 'd7fc56aa-4255-e211-811c-00155d2ee30b' ; break }
                 'Yammer'   { $SNid = 'e473a268-8081-e311-9401-00155da64d68' ; break }
@@ -163,8 +163,10 @@ Process {
 "@
 
             try {
-                Write-Verbose "About to update online identity $($ID) with Body $($Body)"
-                Invoke-RestMethod @Splat -Body $Body
+                if ($pscmdlet.ShouldProcess($Body, "Updating Online Identity")){
+                    Write-Verbose "About to update online identity $($ID) with Body $($Body)"
+                    Invoke-RestMethod @Splat -Body $Body
+                }
             } catch {
                 Write-Warning -Message "Failed to invoke the PutOnlineIdentity API because $($_.Exception.Message)"
             }
