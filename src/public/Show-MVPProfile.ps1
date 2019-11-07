@@ -33,7 +33,7 @@ function Show-MVPProfile {
     )
     process {
         foreach ($MVP in $ID.Where{$_}) {
-            Start-Process "https://mvp.microsoft.com/en-us/PublicProfile/$MVP"
+            Start-Process -FilePath "https://mvp.microsoft.com/en-us/PublicProfile/$MVP"
         }
     }
 }

@@ -11,7 +11,7 @@
 
     .EXAMPLE
         Get-MVPProfile
-        
+
         It gets your MVP profile summary
 
     .EXAMPLE
@@ -21,7 +21,7 @@
 
     .EXAMPLE
         Get-MVPProfile -ID '5000890'
-        
+
         It gets the public profile of Emin Atac
 #>
 [CmdletBinding()]
@@ -33,10 +33,10 @@ Begin {}
 Process {
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
 
-	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
-	    
+        Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
+
     } else {
-        
+
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
 
         $Splat = @{

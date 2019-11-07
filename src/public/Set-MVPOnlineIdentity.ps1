@@ -57,7 +57,7 @@ Process {
 
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
 
-	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
+        Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
 
     } else {
 
@@ -82,7 +82,7 @@ Process {
 
             # Get the Visibility
             if ($PSBoundParameters['Visibility']) {
-                $VisibilityObject =  Get-MVPContributionVisibility | Where {$_.Description -eq $Visibility }
+                $VisibilityObject =  Get-MVPContributionVisibility | Where-Object -FilterScript {$_.Description -eq $Visibility }
             } else {
                 $VisibilityObject=$CurrentIdentityObject.OnlineIdentityVisibility
             }
@@ -164,7 +164,7 @@ Process {
 
             try {
                 if ($pscmdlet.ShouldProcess($Body, "Updating Online Identity")){
-                    Write-Verbose "About to update online identity $($ID) with Body $($Body)"
+                    Write-Verbose -Message "About to update online identity $($ID) with Body $($Body)"
                     Invoke-RestMethod @Splat -Body $Body
                 }
             } catch {

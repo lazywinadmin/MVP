@@ -92,7 +92,7 @@ Process {
 
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
 
-	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
+        Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
 
     } else {
 
@@ -117,21 +117,21 @@ Process {
 
             if ($PSBoundParameters['ContributionType']) {
                 # Verify the Contribution Type
-                $type = Get-MVPContributionType |where {$_.name -eq $ContributionType}
+                $type = Get-MVPContributionType | Where-Object -FilterScript {$_.name -eq $ContributionType}
             } else {
                 $type = $CurrentContributionObject.ContributionType
             }
 
             if ($PSBoundParameters['ContributionTechnology']) {
                 # Verify the Contribution Technology
-                $Technology = Get-MVPContributionArea -All | where {$_.name -eq $ContributionTechnology}
+                $Technology = Get-MVPContributionArea -All | Where-Object -FilterScript {$_.name -eq $ContributionTechnology}
             } else {
                 $Technology = $CurrentContributionObject.ContributionTechnology
             }
 
             # Get the Visibility
             if ($PSBoundParameters['Visibility']) {
-                $VisibilityObject =  Get-MVPContributionVisibility | Where {$_.Description -eq $Visibility }
+                $VisibilityObject =  Get-MVPContributionVisibility | Where-Object -FilterScript {$_.Description -eq $Visibility }
             } else {
                 $VisibilityObject=$CurrentContributionObject.Visibility
             }
@@ -176,7 +176,7 @@ Process {
             if ($type -and $Technology) {
                 try {
                     if ($pscmdlet.ShouldProcess($Body, "Updating Contribution")){
-                        Write-Verbose "About to update contribution $($ContributionID) with Body $($Body)"
+                        Write-Verbose -Message "About to update contribution $($ContributionID) with Body $($Body)"
                         Invoke-RestMethod @Splat -Body $Body
                     }
                 } catch {

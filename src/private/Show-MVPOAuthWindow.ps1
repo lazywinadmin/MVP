@@ -4,7 +4,7 @@ Function Show-MVPOAuthWindow {
     Function to show the Microsoft Authentication window
 .NOTES
     https://github.com/lazywinadmin/MVP
-    
+
     #Credit to https://raw.githubusercontent.com/1RedOne/PSWordPress/master/Private/Show-oAuthWindow.ps1
 #>
     [CmdletBinding()]
@@ -41,11 +41,11 @@ Function Show-MVPOAuthWindow {
             $null = $form.ShowDialog()
             # set a the autorization code globally
             $global:AutorizationCode = ([regex]'^\?code=(?<code>.+)&lc=\d{1,10}$').Matches(([uri]$uri).query).Groups |
-                Select-Object -Last 1 -Expand value
+                Select-Object -Last 1 -ExpandProperty value
             if ($global:AutorizationCode) {
                 Write-Verbose -Message "[$ScriptName] Successfully got authorization code $($AutorizationCode)"
             } else {
-                Write-Error "[$ScriptName] Authorization code not catched"
+                Write-Error -Message "[$ScriptName] Authorization code not catched"
             }
         } catch {
             $PSCmdlet.ThrowTerminatingError($_)

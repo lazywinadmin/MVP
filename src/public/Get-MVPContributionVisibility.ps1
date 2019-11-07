@@ -6,7 +6,7 @@
     .DESCRIPTION
         Gets a list of Sharing Preference / Visibility Types for Contributions
 
-    .EXAMPLE 
+    .EXAMPLE
         Get-MVPContributionVisibility
 
 #>
@@ -16,9 +16,9 @@ Begin {}
 Process {
 
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
-	
+
         Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
-    
+
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
