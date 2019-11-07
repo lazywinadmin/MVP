@@ -1,18 +1,18 @@
-[![Build Status](https://dev.azure.com/lazywinadmin/MVP/_apis/build/status/lazywinadmin.MVP?branchName=master)](https://dev.azure.com/lazywinadmin/MVP/_build/latest?definitionId=18&branchName=master)
-
 # MVP PowerShell Module
 
-PowerShell Module to interact with the Microsoft MVP API.
-This can be use to manage your contributions (Get, Add, Update and Remove), retrieve contributions type and technologies, retrieve a mvp profile and maintain your online identities.
+![](media/MicrosoftMVPLogo.png)
+
+[![Build Status](https://dev.azure.com/lazywinadmin/MVP/_apis/build/status/lazywinadmin.MVP?branchName=master)](https://dev.azure.com/lazywinadmin/MVP/_build/latest?definitionId=18&branchName=master)
+
+PowerShell Module to interact with the Microsoft MVP API and manage your contributions (Get, Add, Update and Remove), retrieve contributions type and technologies, retrieve a mvp profile and maintain your online identities.
 
 **Youtube video**: [Using the PowerShell MVP Module](https://www.youtube.com/watch?v=UeRvlMzfsT8)
 
 ## Table of Contents
+* [Getting Started](#Usage)
+* [Configure connection](#Configure)
 * [Requirements](#requirements)
-* [Usage](#Usage)
-  * [Install the module](#Install)
-  * [Configure connection](#Configure)
-  * [Functions List](#Functions)
+* [Commands](#commands)
   * [Get-MVPProfile](#GetMVPProfile)
   * [Get-MVPContributionType](#GetMVPContributionType)
   * [Get-MVPContributionArea](#GetMVPContributionArea)
@@ -25,38 +25,32 @@ This can be use to manage your contributions (Get, Add, Update and Remove), retr
 * [Authentication](#Authentication)
 * [Persistent SubscriptionKey](#PersistentSubscriptionKey)
 * [Clear Authenticaton](#Clearauthentication)
-* [Issues](#issues)
 * [ToDo](#Todo)
-* [Contribution](#Help)
-* [Notes/Thanks](#Notes)
+* [Contributing](#Contributing)
 * [More Information](#MoreInformation)
 
-<a name="requirements"/>
-
-## Requirements
-
-In order to use this module you need to get a Subscription key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
-
-* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started)
-* [Microsoft Video Tutorial](https://aka.ms/mvp-api-video)
-* [Microsoft MVP API](https://mvpapi.portal.azure-api.net/)
 <a name="Usage"/>
 
-## Usage
+## Getting Started
 
-<a name="Install"/>
-
-### Install the Module
 ```powershell
-Install-module -Name MVP
+# Install the Module from the PowerShell Gallery
+Install-module -Name MVP -Scope CurrentUser -Repository PSGallery
 ```
 
 <a name="Configure"/>
 
 ### Configure Connection
 
-Follow the following steps to retrieve the Subscription Key.
-Fortunately you only need to do this once.
+In order to use this module you need to get a Subscription Key from [https://mvpapi.portal.azure-api.net/](https://mvpapi.portal.azure-api.net/), [see the steps below](#Configure) or follow the documentation from Microsoft:
+
+* [Getting Started with Microsoft MVP API](https://mvp.microsoft.com/en-us/Opportunities/my-opportunities-api-getting-started)
+* [Microsoft Video Tutorial](https://aka.ms/mvp-api-video)
+* [Microsoft MVP API](https://mvpapi.portal.azure-api.net/)
+
+Fortunalely the step above just need to be done once.
+
+Once you have access, follow the following steps to retrieve the Subscription Key.
 
 1. Go to the [Microsoft MVP API Developer Portal](https://mvpapi.portal.azure-api.net/)
 2. Click the ```Sign In``` button and sign in with your Microsoft Account. It must be the same Microsoft Account as you use for your Microsoft MVP Site access.
@@ -72,10 +66,10 @@ Fortunately you only need to do this once.
 
 ```powershell
 # Set your connection to the MVP API
-$SubscriptionKey = 'abcdef083b5b482f8d99184d318b12f6' # this is a fake key ;)
+$SubscriptionKey = 'abcdef083b5b482f8d99184d318b12f6' # this is a fake key btw ;)
 Set-MVPConfiguration -SubscriptionKey $SubscriptionKey
-# This will show a window to authenticate against Microsoft API
 ```
+
 A user interface will show to authenticate against the Microsoft API "mvpapi.portal.azure-api.net"
 
 ![Alt text](media/Set-MVPConfiguration01.jpg?raw=true "Set-MVPConfiguration")
@@ -84,32 +78,36 @@ A user interface will show to authenticate against the Microsoft API "mvpapi.por
 
 ![Alt text](media/Set-MVPConfiguration03.jpg?raw=true "Set-MVPConfiguration")
 
-<a name="Functions"/>
+<a name="commands"/>
 
-### Check Available Commands
+### Commands
+
 ```powershell
 # Retrieve all the commands
 Get-Command -module MVP
 ```
+
+Output:
 ```
-CommandType     Name                                               Version    Source
------------     ----                                               -------    ------
-Function        Get-MVPContribution                                0.0.2.0    MVP
-Function        Get-MVPContributionArea                            0.0.2.0    MVP
-Function        Get-MVPContributionType                            0.0.2.0    MVP
-Function        Get-MVPContributionVisibility                      0.0.2.0    MVP
-Function        Get-MVPOnlineIdentity                              0.0.2.0    MVP
-Function        Get-MVPProfile                                     0.0.2.0    MVP
-Function        Get-MVPProfileImage                                0.0.2.0    MVP
-Function        New-MVPContribution                                0.0.2.0    MVP
-Function        New-MVPOnlineIdentity                              0.0.2.0    MVP
-Function        Remove-MVPConfiguration                            0.0.2.0    MVP
-Function        Remove-MVPContribution                             0.0.2.0    MVP
-Function        Remove-MVPOnlineIdentity                           0.0.2.0    MVP
-Function        Set-MVPConfiguration                               0.0.2.0    MVP
-Function        Set-MVPContribution                                0.0.2.0    MVP
-Function        Set-MVPOnlineIdentity                              0.0.2.0    MVP
-Function        Show-MVPProfile                                    0.0.2.0    MVP
+CommandType Name                          Version Source
+----------- ----                          ------- ------
+Function    Get-MVPContribution           0.0.3   MVP
+Function    Get-MVPContributionArea       0.0.3   MVP
+Function    Get-MVPContributionType       0.0.3   MVP
+Function    Get-MVPContributionVisibility 0.0.3   MVP
+Function    Get-MVPOnlineIdentity         0.0.3   MVP
+Function    Get-MVPProfile                0.0.3   MVP
+Function    Get-MVPProfileImage           0.0.3   MVP
+Function    New-MVPContribution           0.0.3   MVP
+Function    New-MVPOnlineIdentity         0.0.3   MVP
+Function    Remove-MVPConfiguration       0.0.3   MVP
+Function    Remove-MVPContribution        0.0.3   MVP
+Function    Remove-MVPOnlineIdentity      0.0.3   MVP
+Function    Set-MVPConfiguration          0.0.3   MVP
+Function    Set-MVPContribution           0.0.3   MVP
+Function    Set-MVPOnlineIdentity         0.0.3   MVP
+Function    Show-MVPProfile               0.0.3   MVP
+Function    Test-MVPContribution          0.0.3   MVP
 ```
 
 <a name="GetMVPProfile"/>
@@ -120,12 +118,11 @@ Function        Show-MVPProfile                                    0.0.2.0    MV
 ```powershell
 # Retrieve your own profile
 Get-MVPProfile
-```
 
-```powershell
 # Retrieve a specific profile
 Get-MVPProfile -ID 5000475
 ```
+
 ```
 Metadata             : @{PageTitle=Francois-Xavier Cat is a Microsoft MVP in PowerShell who has been in the IT field since 2007. He is currently an
                        Automation Specialist in a large Financial company.; TemplateName=; Keywords=; Description=}
@@ -1316,52 +1313,25 @@ During authentication, the module opens an Internet Explorer window to authentic
 If you need to clear this information, you'll need to clear the Internet Explorer cache.
 
 
-<a name="Issues"/>
+<a name="Contributing"/>
 
-## Issues
- * ~~Not able to retrieve the Authentication Hash from MSFT Live OAuth using PowerShell. (for now you can retrieve your hash using the 'TRY IT' on https://mvpapi.portal.azure-api.net/~~
- * Known Issue: "My Added entries does not show on the portal". See workaround #15
+## Contributing
 
-<a name="Todo"/>
+Would love contributors, suggestions, feedback, and other help! Feel free to open an Issue ticket.
 
-## Function Todo
-- [x] Get-MVPContribution (All and by ID)
-- [x] Get-MVPContributionArea
-- [x] Get-MVPContributionType
-- [x] Get-MVPContributionVisibility
-- [x] Get-MVPOnlineIdentity (All, By ID, By NomindationID)
-- [x] Get-MVPProfile (Current and by ID)
-- [x] Get-MVPProfileImage
-- [x] New-MVPContribution (POST)
-   - [ ] Add a Switch for `-CheckExisting`
-- [x] New-MVPOnlineIdentity (POST)
-- [x] Remove-MVPContribution (DELETE)
-- [x] Remove-MVPOnlineIdentity (DELETE)
-- [x] Set-MVPConfiguration
-- [x] Set-MVPContribution (PUT) (to edit an existing one)
-- [x] Set-MVPOnlineIdentity (PUT)
-- [x] Remove-MVPConfiguration
-- [ ] Backup-MVPContribution (Using Get-MVPContribution under the hood and save to CSV ? JSON ?)
-- [ ] Import-MVPContribution (Using New-MVPContribution, see [New-MVPContribution (multiple)](#NewMvpContributionMultiple))
-- [ ] Test-MVPContribution (Checks if entry exists, wrapper around Get-MVPContribution based on Date, Title, Type, Techno, Link)
+See [Contributing](CONTRIBUTING.md) file.
+
+Thanks to our contributors!
+
+* @p0w3rsh3ll
+* @Windos
+* @JPRuskins
 
 <a name="MoreInformation"/>
 
 ## More Information
+
 * [Microsoft - mvpapi.portal.azure-api.net](https://mvpapi.portal.azure-api.net/)
 * [Microsoft - mvp-api-video](https://aka.ms/mvp-api-video)
 * [MVP.PSGitHub module](https://github.com/markekraus/MVP.PSGitHub/) by @markekraus - PowerShell Utility Functions for Adding PowerShell GitHub Contributions to the Microsoft MVP API
 * [Update Youtube video contributions script](https://github.com/julioarruda/UpdateMVPContributions) by @julioarruda - PowerShell script to update the View count in existing Microsoft MVP Contributions
-
-<a name="Notes"/>
-
-## Notes
-Thanks go to:
-* @p0w3rsh3ll
-* @Windos
-* @JPRuskins
-<a name="Help"/>
-
-## Help !!
-
-Would love contributors, suggestions, feedback, and other help! Feel free to open an Issue ticket
