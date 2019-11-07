@@ -19,7 +19,7 @@
 
     .EXAMPLE
         Get-MVPContributionArea -Other
-        
+
         It gets the list of Other award categories
 #>
 [CmdletBinding(DefaultParameterSetName='Mine')]
@@ -35,11 +35,11 @@ Process {
 
 
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
-	    Write-Warning -Message "You need to use Set-MVPConfiguration first to set the Primary Key"
+        Write-Warning -Message "You need to use Set-MVPConfiguration first to set the Primary Key"
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
-        
+
         $Splat = @{
             Uri = 'https://mvpapi.azure-api.net/mvp/api/contributions/contributionareas'
             Headers = @{
@@ -53,11 +53,11 @@ Process {
 
             Switch($PsCmdlet.ParameterSetName) {
                 'Mine' {
-                    ($careas | Where { $_.AwardCategory -eq 'My Awarded Category' }).Contributions
+                    ($careas | Where-Object -FilterScript { $_.AwardCategory -eq 'My Awarded Category' }).Contributions
                     break
                 }
                 'Other' {
-                    ($careas | Where { $_.AwardCategory -eq 'Other Award Category' }).Contributions.contributionarea
+                    ($careas | Where-Object -FilterScript { $_.AwardCategory -eq 'Other Award Category' }).Contributions.contributionarea
                     break
                 }
                 'All' {

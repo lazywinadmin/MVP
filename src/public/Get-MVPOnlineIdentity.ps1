@@ -43,9 +43,9 @@ Begin {}
 Process {
 
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
-	
+
         Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
-    
+
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
@@ -59,7 +59,7 @@ Process {
             ErrorAction = 'Stop'
         }
 
-    
+
         if ($ID) {
             $Splat.Uri = "https://mvpapi.azure-api.net/mvp/api/onlineidentities/$($ID)"
         }

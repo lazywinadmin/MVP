@@ -50,7 +50,7 @@ Param(
 Begin {}
 Process {
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
-	    Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
+        Write-Warning -Message 'You need to use Set-MVPConfiguration first to set the Primary Key'
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
@@ -68,7 +68,7 @@ Process {
         }
 
         # Get the Visibility
-        $VisibilityObject = Get-MVPContributionVisibility | Where {$_.Description -eq $Visibility }
+        $VisibilityObject = Get-MVPContributionVisibility | Where-Object -FilterScript {$_.Description -eq $Visibility }
 
         if ($AllowMicrosoftToQueryMyId) {
             $PrivacyConsentStatus  = 'true'
@@ -144,7 +144,7 @@ Process {
 "@
         try {
             if ($pscmdlet.ShouldProcess($Body, "Create a new online identity")){
-                Write-Verbose "About to create a new identity with Body $($Body)"
+                Write-Verbose -Message "About to create a new identity with Body $($Body)"
                 Invoke-RestMethod @Splat -Body $Body
             }
         } catch {

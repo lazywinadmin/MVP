@@ -1,7 +1,7 @@
 ﻿Function Get-MVPContribution {
 <#
 .SYNOPSIS
-    Invoke the GetContributions REST API to retrieve your contributions 
+    Invoke the GetContributions REST API to retrieve your contributions
 
 .DESCRIPTION
     Gets yours contributions without parameter or by specifying the id of a contribution
@@ -17,8 +17,8 @@
 
 .EXAMPLE
     Get-MVPContribution
-    
-    It gets your most recent contributions from range 1 to 5 
+
+    It gets your most recent contributions from range 1 to 5
 
 .EXAMPLE
     Get-MVPContribution -ID 631670
@@ -45,10 +45,10 @@ Process {
     $Scriptname = (Get-Variable -name MyInvocation -Scope 0 -ValueOnly).MyCommand
 
     if (-not ($global:MVPPrimaryKey -and $global:MVPAuthorizationCode)) {
-	    Write-Warning -Message "[$Scriptname] You need to use Set-MVPConfiguration first to set the Primary Key"
+        Write-Warning -Message "[$Scriptname] You need to use Set-MVPConfiguration first to set the Primary Key"
         break
     }
-    
+
     Try {
         Write-Verbose -message "[$Scriptname] Set Configuration"
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
@@ -79,6 +79,6 @@ Process {
     }
     catch {
         $PSCmdlet.ThrowTerminatingError($_)
-    }   
+    }
 }
 }
