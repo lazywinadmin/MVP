@@ -73,8 +73,8 @@ Function Test-MVPContribution {
         $Param1Att.ValueFromPipelineByPropertyName = $true
         $Param1Att.ParameterSetName = '__AllParameterSets'
         $AttribColl1.Add($Param1Att)
-        $AttribColl1.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute(Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
-        $Dictionary.Add($ParameterName,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttribColl1)))
+        $AttribColl1.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute -ArgumentList (Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
+        $Dictionary.Add($ParameterName,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList ($ParameterName, [string], $AttribColl1)))
 
         # ContributionType
         $ParameterID = 'ContributionType'
@@ -84,8 +84,8 @@ Function Test-MVPContribution {
         $Param2Att.ValueFromPipelineByPropertyName=$true
         $Param2Att.ParameterSetName = '__AllParameterSets'
         $AttribColl2.Add($Param2Att)
-        $AttribColl2.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute(Get-MVPContributionType | Select-Object -ExpandProperty Name)))
-        $Dictionary.Add($ParameterID,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter($ParameterID, [string], $AttribColl2)))
+        $AttribColl2.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute -ArgumentList (Get-MVPContributionType | Select-Object -ExpandProperty Name)))
+        $Dictionary.Add($ParameterID,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList ($ParameterID, [string], $AttribColl2)))
 
         # AdditionalTechnologies
         $ParameterName3 = 'AdditionalTechnologies'
@@ -95,8 +95,8 @@ Function Test-MVPContribution {
         $Param3Att.ValueFromPipelineByPropertyName = $true
         $Param3Att.ParameterSetName = '__AllParameterSets'
         $AttribColl3.Add($Param3Att)
-        $AttribColl3.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute(Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
-        $Dictionary.Add($ParameterName3,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter($ParameterName3, [string], $AttribColl3)))
+        $AttribColl3.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute -ArgumentList (Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
+        $Dictionary.Add($ParameterName3,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList ($ParameterName3, [string], $AttribColl3)))
 
         #Return dictionary
         $Dictionary
