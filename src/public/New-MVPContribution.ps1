@@ -68,29 +68,29 @@
     .NOTES
         https://github.com/lazywinadmin/MVP
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 Param(
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$StartDate = (Get-Date -Format 'yyyy/MM/dd'),
-    
+
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$Title='Test from mvpapi.azure-api.net',
 
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$Description='Description sample',
-    
+
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$ReferenceUrl='https://github.com/lazywinadmin/MVP',
-    
+
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$AnnualQuantity='1',
-    
+
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$SecondAnnualQuantity='0',
 
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [String]$AnnualReach = '0',
-    
+
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [ValidateSet('EveryOne','Microsoft','MVP Community','Microsoft Only')]
     [String]$Visibility = 'Microsoft'
@@ -142,7 +142,7 @@ Process {
     } else {
 
         Set-MVPConfiguration -SubscriptionKey $MVPPrimaryKey
-        
+
         $Splat = @{
             Uri = 'https://mvpapi.azure-api.net/mvp/api/contributions'
             Headers = @{
@@ -207,14 +207,16 @@ Process {
   "AnnualReach": $AnnualReach,
   "Description": "$Description"
 }
-"@  
+"@
         try {
-            Write-Verbose -Message "About to create a new contribution with Body $($Body)"
-            Invoke-RestMethod @Splat -Body $Body
+            if ($pscmdlet.ShouldProcess($Body, "Create a new contribution")){
+                Write-Verbose -Message "About to create a new contribution with Body $($Body)"
+                Invoke-RestMethod @Splat -Body $Body
+            }
         } catch {
             Write-Warning -Message "Failed to invoke the PostContribution API because $($_.Exception.Message)"
         }
-    }     
+    }
 }
 End {}
 }
