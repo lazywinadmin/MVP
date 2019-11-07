@@ -62,7 +62,7 @@ try{
         }
 
         if (-not(Get-Module -Listavailable -Name PSDepend)) {
-            Write-verbose "BootStrapping PSDepend"
+            Write-Verbose -Message "BootStrapping PSDepend"
             "Parameter $buildOutputPath"| Write-verbose
             $InstallPSDependParams = @{
                 Name = 'PSDepend'
