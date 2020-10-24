@@ -1039,32 +1039,33 @@ Get-MVPContribution -Limit 100 # This will retrieve 100 entries
 ### Create a New Contribution
 ```powershell
 $Splat = @{
-startdate ='2017/04/25'
+StartDate ='2020/10/20'
 Title='Test from mvpapi.azure-api.net'
 Description = 'Description sample'
 ReferenceUrl='https://github.com/lazywinadmin/MVP'
 AnnualQuantity='1'
 SecondAnnualQuantity='0'
 AnnualReach = '0'
-Visibility = 'EveryOne' # Get-MVPContributionVisibility
-ContributionType = 'Blog Site Posts' # Get-MVPContributionType
+Visibility = 'Everyone' # Get-MVPContributionVisibility
+ContributionType = 'Blog/Website Post' # Get-MVPContributionType
 ContributionTechnology = 'PowerShell' # Get-MVPContributionArea
 }
 
-New-MVPContribution @splat
+New-MVPContribution @Splat
 ```
 
 Output:
 ```
 ContributionId         : 123456
-ContributionTypeName   : Blog Site Posts
-ContributionType       : @{Id=df6464de-173a-e411-cccc-6c3be5a82b68; Name=Blog Site Posts; EnglishName=Blog Site Posts}
-ContributionTechnology : @{Id=7cc301bb-184a-e411-dddd-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
-StartDate              : 2017-04-25T00:00:00
+ContributionTypeName   : Blog/Website Post
+ContributionType       : @{Id=df6464de-179a-e411-bbc8-6c3be5a82b68; Name=Blog/Website Post; EnglishName=Blog/Website Post}
+ContributionTechnology : @{Id=7cc301bb-189a-e411-93f2-9cb65495d3c4; Name=PowerShell; AwardName=; AwardCategory=}
+AdditionalTechnologies : {}
+StartDate              : 2020-10-20T00:00:00
 Title                  : Test from mvpapi.azure-api.net
 ReferenceUrl           : https://github.com/lazywinadmin/MVP
 Visibility             : @{Id=299600000; Description=Public; LocalizeKey=}
-AnnualQuantity         : 0
+AnnualQuantity         : 1
 SecondAnnualQuantity   : 0
 AnnualReach            : 0
 Description            : Description sample
@@ -1091,16 +1092,16 @@ __From a CSV__
 CSV Content [(file)](Examples/):
 ```
 startdate,title,description,referenceurl,AnnualQuantity,SecondAnnualQuantity,AnnualReach,Visibility,ContributionType,ContributionTechnology
-2017-12-01,Test1,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-02,Test2,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-03,Test3,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-04,Test4,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-05,Test5,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-06,Test6,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-07,Test7,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-08,Test8,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-09,Test9,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
-2017-12-10,Test10,Some content,https://github.com/lazywinadmin/MVP,1,0,0,EveryOne,Blog Site Posts,PowerShell
+2020-12-01,Test1,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-02,Test2,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-03,Test3,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-04,Test4,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-05,Test5,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-06,Test6,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-07,Test7,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-08,Test8,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-09,Test9,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
+2020-12-10,Test10,Some content,https://github.com/lazywinadmin/MVP,1,0,0,Everyone,Blog/Website Post,PowerShell
 ```
 
 ```powershell
