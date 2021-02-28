@@ -148,10 +148,10 @@ Process {
             Headers = @{
                 'Ocp-Apim-Subscription-Key' = $global:MVPPrimaryKey
                 Authorization = $Global:MVPAuthorizationCode
-                ContentType = 'application/json'
+                ContentType = 'application/json; charset=utf-8'
                 }
             Method = 'POST'
-            ContentType = 'application/json'
+            ContentType = 'application/json; charset=utf-8'
             ErrorAction = 'Stop'
         }
 
