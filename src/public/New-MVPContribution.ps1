@@ -130,7 +130,7 @@ DynamicParam {
     $Param3Att.ParameterSetName = '__AllParameterSets'
     $AttribColl3.Add($Param3Att)
     $AttribColl3.Add((New-Object -TypeName System.Management.Automation.ValidateSetAttribute -ArgumentList (Get-MVPContributionArea -All | Select-Object -ExpandProperty Name)))
-    $Dictionary.Add($ParameterName3,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList ($ParameterName3, [string], $AttribColl3)))
+    $Dictionary.Add($ParameterName3,(New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList ($ParameterName3, [string[]], $AttribColl3)))
 
     #Return dictionary
     $Dictionary
@@ -148,66 +148,73 @@ Process {
             Headers = @{
                 'Ocp-Apim-Subscription-Key' = $global:MVPPrimaryKey
                 Authorization = $Global:MVPAuthorizationCode
-                ContentType = 'application/json'
+                ContentType = 'application/json; charset=utf-8'
                 }
             Method = 'POST'
-            ContentType = 'application/json'
+            ContentType = 'application/json; charset=utf-8'
             ErrorAction = 'Stop'
         }
 
+        if (-not $Script:MVPCachedTypes) {
+            $Script:MVPCachedTypes = [ordered] @{
+                ContributionType = Get-MVPContributionType
+                ContributionArea = Get-MVPContributionArea -All
+                Visibility       = Get-MVPContributionVisibility
+            }
+        }
+
         # Verify the Contribution Type
-        $type = Get-MVPContributionType |
-            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['ContributionType']}
+        $type = $Script:MVPCachedTypes['ContributionType'] | Where-Object -FilterScript { $_.name -eq $PSBoundParameters['ContributionType'] }
 
         # Verify the Contribution Technology
-        $Technology = Get-MVPContributionArea -All |
-            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['ContributionTechnology']}
+        $Technology = $Script:MVPCachedTypes['ContributionArea'] | Where-Object -FilterScript { $_.name -eq $PSBoundParameters['ContributionTechnology'] }
 
         # Verify the Additional Technology
-        $AdditionalTechnologies = Get-MVPContributionArea -All |
-            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['AdditionalTechnologies']}
+        [Array] $AdditionalTechnologies = $Script:MVPCachedTypes['ContributionArea'] | Where-Object -FilterScript { $_.name -in $PSBoundParameters['AdditionalTechnologies'] }
 
         # Get the Visibility
-        $VisibilityObject = Get-MVPContributionVisibility |
-            Where-Object -FilterScript {$_.Description -eq $Visibility }
+        $VisibilityObject = $Script:MVPCachedTypes['Visibility'] | Where-Object -FilterScript { $_.Description -eq $Visibility }
 
-        $Body = @"
-{
-  "ContributionId": 0,
-  "ContributionTypeName": "$($type.name)",
-  "ContributionType": {
-    "Id": "$($type.id)",
-    "Name": "$($type.name)",
-    "EnglishName": "$($type.englishname)"
-  },
-  "ContributionTechnology": {
-    "Id": "$($Technology.id)",
-    "Name": "$($Technology.name)",
-    "AwardName": "$($Technology.awardname)",
-    "AwardCategory": "$($Technology.awardcategory)"
-  },
-  "AdditionalTechnologies": [
-    {
-        "Id": "$($AdditionalTechnologies.id)",
-        "Name": "$($AdditionalTechnologies.name)",
-        "AwardName": "$($AdditionalTechnologies.awardname)",
-        "AwardCategory": "$($AdditionalTechnologies.awardcategory)"
-    }
-  ],
-  "StartDate": "$StartDate",
-  "Title": "$Title",
-  "ReferenceUrl": "$ReferenceUrl",
-  "Visibility": {
-    "Id": $($VisibilityObject.id),
-    "Description": "$($VisibilityObject.Description)",
-    "LocalizeKey": "$($VisibilityObject.LocalizeKey)"
-  },
-  "AnnualQuantity": $AnnualQuantity,
-  "SecondAnnualQuantity": $SecondAnnualQuantity,
-  "AnnualReach": $AnnualReach,
-  "Description": "$Description"
-}
-"@
+        $HashTableContribution = @{
+            "ContributionId"         = 0
+            "ContributionTypeName"   = "$($type.name)"
+            "ContributionType"       = @{
+                "Id"          = "$($type.id)"
+                "Name"        = "$($type.name)"
+                "EnglishName" = "$($type.englishname)"
+            }
+            "ContributionTechnology" = @{
+                "Id"            = "$($Technology.id)"
+                "Name"          = "$($Technology.name)"
+                "AwardName"     = "$($Technology.awardname)"
+                "AwardCategory" = "$($Technology.awardcategory)"
+            }
+            "StartDate"              = "$StartDate"
+            "Title"                  = "$Title"
+            "ReferenceUrl"           = "$ReferenceUrl"
+            "Visibility"             = @{
+                "Id"          = $($VisibilityObject.id)
+                "Description" = "$($VisibilityObject.Description)"
+                "LocalizeKey" = "$($VisibilityObject.LocalizeKey)"
+            }
+            "AnnualQuantity"         = $AnnualQuantity
+            "SecondAnnualQuantity"   = $SecondAnnualQuantity
+            "AnnualReach"            = $AnnualReach
+            "Description"            = "$Description"
+        }
+        if ($AdditionalTechnologies) {
+            $HashTableContribution["AdditionalTechnologies"] = @(
+                foreach ($Technology in $AdditionalTechnologies) {
+                    @{
+                        "Id"            = "$($Technology.id)"
+                        "Name"          = "$($Technology.name)"
+                        "AwardName"     = "$($Technology.awardname)"
+                        "AwardCategory" = "$($Technology.awardcategory)"
+                    }
+                }
+            )
+        }
+        $Body = $HashTableContribution | ConvertTo-Json
         try {
             if ($pscmdlet.ShouldProcess($Body, "Create a new contribution")){
                 Write-Verbose -Message "About to create a new contribution with Body $($Body)"
