@@ -1327,6 +1327,7 @@ Thanks to our contributors!
 * @p0w3rsh3ll
 * @Windos
 * @JPRuskins
+* @PrzemyslawKlys
 
 <a name="MoreInformation"/>
 
