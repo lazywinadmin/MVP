@@ -155,21 +155,25 @@ Process {
             ErrorAction = 'Stop'
         }
 
+        if (-not $Script:MVPCachedTypes) {
+            $Script:MVPCachedTypes = [ordered] @{
+                ContributionType = Get-MVPContributionType
+                ContributionArea = Get-MVPContributionArea -All
+                Visibility       = Get-MVPContributionVisibility
+            }
+        }
+
         # Verify the Contribution Type
-        $type = Get-MVPContributionType |
-            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['ContributionType']}
+        $type = $Script:MVPCachedTypes['ContributionType'] | Where-Object -FilterScript { $_.name -eq $PSBoundParameters['ContributionType'] }
 
         # Verify the Contribution Technology
-        $Technology = Get-MVPContributionArea -All |
-            Where-Object -FilterScript {$_.name -eq $PSBoundParameters['ContributionTechnology']}
+        $Technology = $Script:MVPCachedTypes['ContributionArea'] | Where-Object -FilterScript { $_.name -eq $PSBoundParameters['ContributionTechnology'] }
 
         # Verify the Additional Technology
-        $AdditionalTechnologies = Get-MVPContributionArea -All |
-            Where-Object -FilterScript {$_.name -in $PSBoundParameters['AdditionalTechnologies']}
+        [Array] $AdditionalTechnologies = $Script:MVPCachedTypes['ContributionArea'] | Where-Object -FilterScript { $_.name -in $PSBoundParameters['AdditionalTechnologies'] }
 
         # Get the Visibility
-        $VisibilityObject = Get-MVPContributionVisibility |
-            Where-Object -FilterScript {$_.Description -eq $Visibility }
+        $VisibilityObject = $Script:MVPCachedTypes['Visibility'] | Where-Object -FilterScript { $_.Description -eq $Visibility }
 
         $HashTableContribution = @{
             "ContributionId"         = 0
