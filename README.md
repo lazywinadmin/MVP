@@ -1,5 +1,16 @@
 # MVP PowerShell Module
 
+> ⚠️ **__IMPORTANT__**
+> **This module will stop working on the 29th of April 2022.**
+> 
+> Unfortunately Microsoft decided to retire the Microsoft MVP API.
+> :disappointed: :disappointed: :disappointed:
+> 
+> *We would like to inform you that as of April 29th, 2022, the MVP Portal API will be decommissioned due to technical support limitations and incompatibility with Microsoft
+accessibility guidelines. If you would like to add contributions to your profile, you can access the
+[MVP Private page](https://mvp.microsoft.com/) and
+perform this task directly.*
+
 ![](media/MicrosoftMVPLogo.png)
 
 [![Build Status](https://dev.azure.com/lazywinadmin/MVP/_apis/build/status/lazywinadmin.MVP?branchName=master)](https://dev.azure.com/lazywinadmin/MVP/_build/latest?definitionId=18&branchName=master)
